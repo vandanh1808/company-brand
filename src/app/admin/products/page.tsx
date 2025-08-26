@@ -25,7 +25,6 @@ import {
 	ArrowLeft,
 	Save,
 	X,
-	Upload,
 } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -210,8 +209,11 @@ function CreateProductDialog({
 			toast.success("Tạo sản phẩm thành công");
 			onCreated(product);
 			onOpenChange(false);
-		} catch (err: any) {
-			toast.error(err.message || "Lỗi khi tạo sản phẩm");
+		} catch (err: unknown) {
+			toast.error(
+				(err instanceof Error ? err.message : String(err)) ||
+					"Lỗi khi tạo sản phẩm"
+			);
 		} finally {
 			setLoading(false);
 		}
@@ -606,8 +608,11 @@ function UpdateProductDialog({
 			toast.success("Cập nhật sản phẩm thành công");
 			onUpdated(updatedProduct);
 			onOpenChange(false);
-		} catch (err: any) {
-			toast.error(err.message || "Lỗi khi cập nhật sản phẩm");
+		} catch (err: unknown) {
+			toast.error(
+				(err instanceof Error ? err.message : String(err)) ||
+					"Lỗi khi cập nhật sản phẩm"
+			);
 		} finally {
 			setLoading(false);
 		}
@@ -1261,9 +1266,11 @@ export default function AdminProductsPage() {
 										<TableCell>
 											<span
 												className={`font-semibold ${
-													product?.quantity > 20
+													(product?.quantity || 0) >
+													20
 														? "text-green-600"
-														: product?.quantity > 0
+														: (product?.quantity ||
+																0) > 0
 														? "text-orange-600"
 														: "text-red-600"
 												}`}
