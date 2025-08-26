@@ -309,7 +309,8 @@ export default function Header() {
 															</div>
 														) : (
 															<div className="px-4 py-3 text-gray-500 text-center text-sm font-normal">
-																Không có dữ liệu
+																Không có thương
+																hiệu
 															</div>
 														)}
 													</div>
@@ -320,7 +321,7 @@ export default function Header() {
 
 									{companies.length === 0 && (
 										<div className="px-6 py-3 text-gray-500 text-center text-sm font-normal">
-											Chưa có công ty nào
+											Không có công ty
 										</div>
 									)}
 								</div>
@@ -350,7 +351,7 @@ export default function Header() {
 								>
 									<button className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 transition-colors py-2 px-3 rounded-lg border border-gray-300 hover:bg-gray-50 font-normal text-sm">
 										<Settings className="w-4 h-4" />
-										<span>Admin</span>
+										<span>Quản trị</span>
 										<ChevronDown className="w-3 h-3" />
 									</button>
 
@@ -363,7 +364,7 @@ export default function Header() {
 													{user?.name || user?.email}
 												</div>
 												<div className="text-xs text-gray-600">
-													Administrator
+													Quản trị viên
 												</div>
 											</div>
 
@@ -374,7 +375,7 @@ export default function Header() {
 													className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors text-sm"
 												>
 													<Settings className="w-4 h-4 mr-3" />
-													Dashboard
+													Bảng điều khiển
 												</Link>
 												<Link
 													href="/admin/companies"
@@ -425,7 +426,7 @@ export default function Header() {
 									size="sm"
 									className="border border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-gray-900 font-normal px-4 py-2 text-sm transition-colors"
 								>
-									Login
+									Đăng Nhập
 								</Button>
 							</Link>
 						)}
@@ -639,7 +640,7 @@ export default function Header() {
 												{user?.name || user?.email}
 											</div>
 											<div className="text-xs text-gray-600">
-												Administrator
+												Quản trị viên
 											</div>
 										</div>
 
@@ -721,7 +722,7 @@ export default function Header() {
 											size="sm"
 											className="w-full border border-gray-300 text-gray-700 hover:bg-gray-50 font-normal text-sm"
 										>
-											Admin
+											Quản trị
 										</Button>
 									</Link>
 								)}
