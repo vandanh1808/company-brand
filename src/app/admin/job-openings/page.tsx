@@ -29,7 +29,6 @@ import {
 	Plus,
 	Edit2,
 	Trash2,
-	Eye,
 	Search,
 	ArrowLeft,
 	Briefcase,
@@ -79,7 +78,7 @@ export default function AdminJobOpeningsPage() {
 		location: "",
 		experience: "",
 		deadline: "",
-		status: "active" as const,
+		status: "active" as "active" | "inactive" | "closed",
 	});
 
 	useEffect(() => {
@@ -184,7 +183,8 @@ export default function AdminJobOpeningsPage() {
 			deadline: job.deadline
 				? new Date(job.deadline).toISOString().split("T")[0]
 				: "",
-			status: job.status || "active",
+			status:
+				(job.status as "active" | "inactive" | "closed") || "active",
 		});
 		setIsUpsertOpen(true);
 	};
@@ -255,9 +255,9 @@ export default function AdminJobOpeningsPage() {
 				toast.success("Đã tạo tin tuyển dụng thành công");
 			}
 			setIsUpsertOpen(false);
-		} catch (e: any) {
+		} catch (e: unknown) {
 			toast.error(
-				e?.message ||
+				(e instanceof Error ? e.message : String(e)) ||
 					(editing ? "Không thể cập nhật" : "Không thể tạo mới")
 			);
 		} finally {

@@ -206,12 +206,12 @@ export default function Page() {
 								Thông điệp từ Ban lãnh đạo
 							</h2>
 							<blockquote className="text-lg text-muted-foreground italic max-w-4xl mx-auto leading-relaxed">
-								"Chúng tôi tin rằng sức mạnh của sự kết nối và
-								hợp tác sẽ tạo ra những giá trị vượt xa tổng của
-								các thành phần riêng lẻ. Enterprise Platform
+								&quot;Chúng tôi tin rằng sức mạnh của sự kết nối
+								và hợp tác sẽ tạo ra những giá trị vượt xa tổng
+								của các thành phần riêng lẻ. Enterprise Platform
 								không chỉ là một nền tảng công nghệ, mà là cầu
 								nối giúp các doanh nghiệp cùng phát triển và
-								thành công trong thời đại số."
+								thành công trong thời đại số.&quot;
 							</blockquote>
 							<div className="mt-6">
 								<div className="font-semibold text-lg">

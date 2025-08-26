@@ -17,10 +17,8 @@ import {
 	Building2,
 	Package,
 	ShoppingBag,
-	Users,
 	LogOut,
 	Plus,
-	TrendingUp,
 	Eye,
 	Briefcase,
 } from "lucide-react";
