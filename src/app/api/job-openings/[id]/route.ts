@@ -5,19 +5,20 @@ import mongoose from "mongoose";
 
 export async function GET(
 	request: NextRequest,
-	{ params }: { params: { id: string } }
+	{ params }: { params: Promise<{ id: string }> }
 ) {
 	try {
 		await connectToDatabase();
+		const { id } = await params;
 
-		if (!mongoose.Types.ObjectId.isValid(params.id)) {
+		if (!mongoose.Types.ObjectId.isValid(id)) {
 			return NextResponse.json(
 				{ success: false, error: "ID tin tuyển dụng không hợp lệ" },
 				{ status: 400 }
 			);
 		}
 
-		const jobOpening = await JobOpening.findById(params.id);
+		const jobOpening = await JobOpening.findById(id);
 
 		if (!jobOpening) {
 			return NextResponse.json(
@@ -43,12 +44,13 @@ export async function GET(
 
 export async function PUT(
 	request: NextRequest,
-	{ params }: { params: { id: string } }
+	{ params }: { params: Promise<{ id: string }> }
 ) {
 	try {
 		await connectToDatabase();
+		const { id } = await params;
 
-		if (!mongoose.Types.ObjectId.isValid(params.id)) {
+		if (!mongoose.Types.ObjectId.isValid(id)) {
 			return NextResponse.json(
 				{ success: false, error: "ID tin tuyển dụng không hợp lệ" },
 				{ status: 400 }
@@ -62,7 +64,7 @@ export async function PUT(
 			body.deadline = new Date(body.deadline);
 		}
 
-		const jobOpening = await JobOpening.findByIdAndUpdate(params.id, body, {
+		const jobOpening = await JobOpening.findByIdAndUpdate(id, body, {
 			new: true,
 			runValidators: true,
 		});
@@ -91,19 +93,20 @@ export async function PUT(
 
 export async function DELETE(
 	request: NextRequest,
-	{ params }: { params: { id: string } }
+	{ params }: { params: Promise<{ id: string }> }
 ) {
 	try {
 		await connectToDatabase();
+		const { id } = await params;
 
-		if (!mongoose.Types.ObjectId.isValid(params.id)) {
+		if (!mongoose.Types.ObjectId.isValid(id)) {
 			return NextResponse.json(
 				{ success: false, error: "ID tin tuyển dụng không hợp lệ" },
 				{ status: 400 }
 			);
 		}
 
-		const jobOpening = await JobOpening.findByIdAndDelete(params.id);
+		const jobOpening = await JobOpening.findByIdAndDelete(id);
 
 		if (!jobOpening) {
 			return NextResponse.json(
