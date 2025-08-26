@@ -11,6 +11,7 @@ import {
 	LogOut,
 	Package,
 	Building,
+	Briefcase,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAdmin } from "@/contexts/AdminContext";
@@ -398,6 +399,13 @@ export default function Header() {
 													<Package className="w-4 h-4 mr-3" />
 													Quản lý sản phẩm
 												</Link>
+												<Link
+													href="/admin/job-openings"
+													className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors text-sm"
+												>
+													<Briefcase className="w-4 h-4 mr-3" />
+													Quản lý tuyển dụng
+												</Link>
 											</div>
 
 											{/* Logout */}
@@ -695,6 +703,19 @@ export default function Header() {
 											>
 												<Package className="w-4 h-4 mr-2" />
 												Quản lý sản phẩm
+											</Button>
+										</Link>
+										<Link
+											href="/admin/job-openings"
+											onClick={() => setIsMenuOpen(false)}
+										>
+											<Button
+												variant="ghost"
+												size="sm"
+												className="w-full justify-start font-normal text-sm"
+											>
+												<Briefcase className="w-4 h-4 mr-2" />
+												Quản lý tuyển dụng
 											</Button>
 										</Link>
 

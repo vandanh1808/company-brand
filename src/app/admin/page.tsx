@@ -22,6 +22,7 @@ import {
 	Plus,
 	TrendingUp,
 	Eye,
+	Briefcase,
 } from "lucide-react";
 
 interface User {
@@ -161,6 +162,12 @@ export default function AdminDashboard() {
 							Quản Lý Sản Phẩm
 						</Button>
 					</Link>
+					<Link href="/admin/job-openings">
+						<Button variant="outline">
+							<Briefcase className="w-4 h-4 mr-2" />
+							Quản Lý Tuyển Dụng
+						</Button>
+					</Link>
 					<Link href="/">
 						<Button variant="ghost">Xem Trang Web</Button>
 					</Link>
@@ -262,6 +269,15 @@ export default function AdminDashboard() {
 							>
 								<ShoppingBag className="w-4 h-4 mr-2" />
 								Thêm Sản Phẩm Mới
+							</Button>
+						</Link>
+						<Link href="/admin/job-openings">
+							<Button
+								variant="outline"
+								className="w-full justify-start"
+							>
+								<Briefcase className="w-4 h-4 mr-2" />
+								Thêm Tin Tuyển Dụng
 							</Button>
 						</Link>
 					</CardContent>

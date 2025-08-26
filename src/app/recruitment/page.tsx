@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import {
 	Card,
 	CardContent,
@@ -21,7 +22,20 @@ import {
 	CalendarDays,
 	Briefcase,
 } from "lucide-react";
-import { JobOpening, jobOpenings } from "./_mockData";
+
+interface JobOpening {
+	_id: string;
+	title: string;
+	description: string;
+	requirements: string;
+	salaryText: string;
+	quantityText: string;
+	location: string;
+	experience: string;
+	postedAt: string;
+	deadline: string;
+	status: "active" | "inactive" | "closed";
+}
 
 function RecruitmentJobCard({ job }: { job: JobOpening }) {
 	// tách yêu cầu theo xuống dòng hoặc theo dấu '-'
@@ -91,11 +105,17 @@ function RecruitmentJobCard({ job }: { job: JobOpening }) {
 					</div>
 					<div className="flex items-center gap-3">
 						<CalendarDays className="w-4 h-4 text-slate-500" />
-						<span>{job.postedAt}</span>
+						<span>
+							Đăng:{" "}
+							{new Date(job.postedAt).toLocaleDateString("vi-VN")}
+						</span>
 					</div>
 					<div className="flex items-center gap-3">
 						<CalendarDays className="w-4 h-4 text-slate-500" />
-						<span>{job.deadline}</span>
+						<span>
+							Hạn:{" "}
+							{new Date(job.deadline).toLocaleDateString("vi-VN")}
+						</span>
 					</div>
 				</div>
 			</div>
@@ -104,6 +124,27 @@ function RecruitmentJobCard({ job }: { job: JobOpening }) {
 }
 
 export default function RecruitmentPage() {
+	const [jobOpenings, setJobOpenings] = useState<JobOpening[]>([]);
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		fetchJobOpenings();
+	}, []);
+
+	const fetchJobOpenings = async () => {
+		try {
+			const response = await fetch("/api/job-openings?status=active");
+			const data = await response.json();
+			if (data.success) {
+				setJobOpenings(data.data);
+			}
+		} catch (error) {
+			console.error("Error fetching job openings:", error);
+		} finally {
+			setLoading(false);
+		}
+	};
+
 	const companyInfo = {
 		name: "TechCorp Enterprise",
 		description:
@@ -251,11 +292,25 @@ export default function RecruitmentPage() {
 			<section className="mb-12">
 				<h2 className="text-3xl font-bold mb-8">Tin tuyển dụng</h2>
 
-				<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-					{jobOpenings.map((job) => (
-						<RecruitmentJobCard key={job.id} job={job} />
-					))}
-				</div>
+				{loading ? (
+					<div className="text-center py-8">
+						<div className="text-lg">
+							Đang tải tin tuyển dụng...
+						</div>
+					</div>
+				) : jobOpenings.length === 0 ? (
+					<div className="text-center py-8">
+						<div className="text-lg text-muted-foreground">
+							Hiện tại chưa có tin tuyển dụng nào.
+						</div>
+					</div>
+				) : (
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+						{jobOpenings.map((job) => (
+							<RecruitmentJobCard key={job._id} job={job} />
+						))}
+					</div>
+				)}
 			</section>
 
 			{/* Benefits */}
