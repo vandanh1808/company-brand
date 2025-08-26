@@ -19,43 +19,49 @@ const JobOpeningSchema: Schema = new Schema(
 	{
 		title: {
 			type: String,
-			required: [true, "Job title is required"],
+			required: [true, "Tiêu đề công việc là bắt buộc"],
 			trim: true,
-			maxlength: [200, "Job title cannot exceed 200 characters"],
+			maxlength: [200, "Tiêu đề công việc không được vượt quá 200 ký tự"],
 		},
 		description: {
 			type: String,
-			required: [true, "Job description is required"],
-			maxlength: [2000, "Job description cannot exceed 2000 characters"],
+			required: [true, "Mô tả công việc là bắt buộc"],
+			maxlength: [2000, "Mô tả công việc không được vượt quá 2000 ký tự"],
 		},
 		requirements: {
 			type: String,
-			required: [true, "Job requirements are required"],
-			maxlength: [3000, "Job requirements cannot exceed 3000 characters"],
+			required: [true, "Yêu cầu công việc là bắt buộc"],
+			maxlength: [
+				3000,
+				"Yêu cầu công việc không được vượt quá 3000 ký tự",
+			],
 		},
 		salaryText: {
 			type: String,
-			required: [true, "Salary information is required"],
+			required: [true, "Thông tin mức lương là bắt buộc"],
 			trim: true,
-			maxlength: [100, "Salary text cannot exceed 100 characters"],
+			maxlength: [100, "Thông tin lương không được vượt quá 100 ký tự"],
 		},
 		quantityText: {
 			type: String,
-			required: [true, "Quantity information is required"],
+			required: [true, "Thông tin số lượng tuyển là bắt buộc"],
 			trim: true,
-			maxlength: [50, "Quantity text cannot exceed 50 characters"],
+			maxlength: [50, "Thông tin số lượng không được vượt quá 50 ký tự"],
 		},
 		location: {
 			type: String,
-			required: [true, "Location is required"],
+			required: [true, "Địa điểm làm việc là bắt buộc"],
 			trim: true,
-			maxlength: [200, "Location cannot exceed 200 characters"],
+			maxlength: [200, "Địa điểm không được vượt quá 200 ký tự"],
 		},
 		experience: {
 			type: String,
-			required: [true, "Experience requirement is required"],
+			required: [true, "Yêu cầu kinh nghiệm là bắt buộc"],
 			trim: true,
-			maxlength: [100, "Experience text cannot exceed 100 characters"],
+			maxlength: [
+				100,
+				"Thông tin kinh nghiệm không được vượt quá 100 ký tự",
+			],
 		},
 		postedAt: {
 			type: Date,
@@ -63,7 +69,7 @@ const JobOpeningSchema: Schema = new Schema(
 		},
 		deadline: {
 			type: Date,
-			required: [true, "Application deadline is required"],
+			required: [true, "Hạn nộp hồ sơ là bắt buộc"],
 		},
 		status: {
 			type: String,

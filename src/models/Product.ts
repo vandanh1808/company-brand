@@ -15,26 +15,23 @@ const ProductSchema: Schema = new Schema(
 	{
 		name: {
 			type: String,
-			required: [true, "Product name is required"],
+			required: [true, "Tên sản phẩm là bắt buộc"],
 			trim: true,
-			maxlength: [200, "Product name cannot exceed 200 characters"],
+			maxlength: [200, "Tên sản phẩm không được vượt quá 200 ký tự"],
 		},
 		description: {
 			type: String,
-			maxlength: [
-				2000,
-				"Product description cannot exceed 2000 characters",
-			],
+			maxlength: [2000, "Mô tả sản phẩm không được vượt quá 2000 ký tự"],
 		},
 		price: {
 			type: Number,
-			required: [true, "Product price is required"],
-			min: [0, "Product price cannot be negative"],
+			required: [true, "Giá sản phẩm là bắt buộc"],
+			min: [0, "Giá sản phẩm không được âm"],
 		},
 		quantity: {
 			type: Number,
-			required: [true, "Product quantity is required"],
-			min: [0, "Product quantity cannot be negative"],
+			required: [true, "Số lượng sản phẩm là bắt buộc"],
+			min: [0, "Số lượng sản phẩm không được âm"],
 		},
 		images: [
 			{
@@ -44,7 +41,7 @@ const ProductSchema: Schema = new Schema(
 		brandId: {
 			type: Schema.Types.ObjectId,
 			ref: "Brand",
-			required: [true, "Brand ID is required"],
+			required: [true, "ID thương hiệu là bắt buộc"],
 		},
 	},
 	{

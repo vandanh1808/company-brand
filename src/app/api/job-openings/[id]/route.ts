@@ -12,7 +12,7 @@ export async function GET(
 
 		if (!mongoose.Types.ObjectId.isValid(params.id)) {
 			return NextResponse.json(
-				{ success: false, error: "Invalid job opening ID" },
+				{ success: false, error: "ID tin tuyển dụng không hợp lệ" },
 				{ status: 400 }
 			);
 		}
@@ -21,7 +21,7 @@ export async function GET(
 
 		if (!jobOpening) {
 			return NextResponse.json(
-				{ success: false, error: "Job opening not found" },
+				{ success: false, error: "Không tìm thấy tin tuyển dụng" },
 				{ status: 404 }
 			);
 		}
@@ -34,7 +34,7 @@ export async function GET(
 				error:
 					error instanceof Error
 						? error.message
-						: "An unknown error occurred",
+						: "Đã xảy ra lỗi không xác định",
 			},
 			{ status: 500 }
 		);
@@ -50,7 +50,7 @@ export async function PUT(
 
 		if (!mongoose.Types.ObjectId.isValid(params.id)) {
 			return NextResponse.json(
-				{ success: false, error: "Invalid job opening ID" },
+				{ success: false, error: "ID tin tuyển dụng không hợp lệ" },
 				{ status: 400 }
 			);
 		}
@@ -69,7 +69,7 @@ export async function PUT(
 
 		if (!jobOpening) {
 			return NextResponse.json(
-				{ success: false, error: "Job opening not found" },
+				{ success: false, error: "Không tìm thấy tin tuyển dụng" },
 				{ status: 404 }
 			);
 		}
@@ -82,7 +82,7 @@ export async function PUT(
 				error:
 					error instanceof Error
 						? error.message
-						: "An unknown error occurred",
+						: "Đã xảy ra lỗi không xác định",
 			},
 			{ status: 400 }
 		);
@@ -98,7 +98,7 @@ export async function DELETE(
 
 		if (!mongoose.Types.ObjectId.isValid(params.id)) {
 			return NextResponse.json(
-				{ success: false, error: "Invalid job opening ID" },
+				{ success: false, error: "ID tin tuyển dụng không hợp lệ" },
 				{ status: 400 }
 			);
 		}
@@ -107,14 +107,14 @@ export async function DELETE(
 
 		if (!jobOpening) {
 			return NextResponse.json(
-				{ success: false, error: "Job opening not found" },
+				{ success: false, error: "Không tìm thấy tin tuyển dụng" },
 				{ status: 404 }
 			);
 		}
 
 		return NextResponse.json({
 			success: true,
-			message: "Job opening deleted successfully",
+			message: "Đã xóa tin tuyển dụng thành công",
 		});
 	} catch (error) {
 		return NextResponse.json(
@@ -123,7 +123,7 @@ export async function DELETE(
 				error:
 					error instanceof Error
 						? error.message
-						: "An unknown error occurred",
+						: "Đã xảy ra lỗi không xác định",
 			},
 			{ status: 500 }
 		);

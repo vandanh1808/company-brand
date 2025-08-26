@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
 				error:
 					error instanceof Error
 						? error.message
-						: "An unknown error occurred",
+						: "Đã xảy ra lỗi không xác định",
 			},
 			{ status: 500 }
 		);
@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
 				error:
 					error instanceof Error
 						? error.message
-						: "An unknown error occurred",
+						: "Đã xảy ra lỗi không xác định",
 			},
 			{ status: 400 }
 		);

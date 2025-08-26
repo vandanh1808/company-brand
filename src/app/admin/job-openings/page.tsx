@@ -127,7 +127,7 @@ export default function AdminJobOpeningsPage() {
 			}
 		} catch (error) {
 			console.error("Error fetching job openings:", error);
-			toast.error("Failed to fetch job openings");
+			toast.error("Không thể tải danh sách tuyển dụng");
 		} finally {
 			setLoading(false);
 		}
