@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
 	Select,
 	SelectContent,
@@ -1119,9 +1120,13 @@ export default function AdminProductsPage() {
 						</CardTitle>
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold">
-							{products.length}
-						</div>
+						{loading ? (
+							<Skeleton className="h-8 w-16" />
+						) : (
+							<div className="text-2xl font-bold">
+								{products.length}
+							</div>
+						)}
 					</CardContent>
 				</Card>
 				<Card>
@@ -1150,13 +1155,19 @@ export default function AdminProductsPage() {
 						)}
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold">
-							{filteredProducts.length}
-						</div>
-						{(searchTerm || selectedCompanyId) && (
-							<p className="text-xs text-muted-foreground">
-								trong tổng số {products.length}
-							</p>
+						{loading ? (
+							<Skeleton className="h-8 w-16" />
+						) : (
+							<>
+								<div className="text-2xl font-bold">
+									{filteredProducts.length}
+								</div>
+								{(searchTerm || selectedCompanyId) && (
+									<p className="text-xs text-muted-foreground">
+										trong tổng số {products.length}
+									</p>
+								)}
+							</>
 						)}
 					</CardContent>
 				</Card>
@@ -1168,7 +1179,28 @@ export default function AdminProductsPage() {
 					<CardTitle>Danh Sách Sản Phẩm</CardTitle>
 				</CardHeader>
 				<CardContent>
-					{filteredProducts.length === 0 ? (
+					{loading ? (
+						<div className="space-y-4">
+							{[1, 2, 3, 4].map((i) => (
+								<div
+									key={i}
+									className="flex items-center justify-between py-3"
+								>
+									<div className="flex items-center gap-4">
+										<Skeleton className="h-12 w-12 rounded" />
+										<div className="space-y-2">
+											<Skeleton className="h-5 w-48" />
+											<Skeleton className="h-4 w-32" />
+										</div>
+									</div>
+									<div className="flex gap-2">
+										<Skeleton className="h-8 w-8" />
+										<Skeleton className="h-8 w-8" />
+									</div>
+								</div>
+							))}
+						</div>
+					) : filteredProducts.length === 0 ? (
 						<div className="text-center py-8">
 							<p className="text-muted-foreground">
 								{searchTerm || selectedCompanyId

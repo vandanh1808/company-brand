@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowLeft, Package } from "lucide-react";
 import Image from "next/image";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Product {
 	_id: string;
@@ -61,7 +62,53 @@ export default function ProductPage() {
 	if (loading) {
 		return (
 			<div className="container mx-auto px-4 py-8">
-				<div className="text-center">Loading...</div>
+				{/* Back button skeleton */}
+				<div className="mb-6">
+					<Skeleton className="h-6 w-40" />
+				</div>
+
+				<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+					{/* Images skeleton */}
+					<div className="space-y-4">
+						<Skeleton className="h-96 w-full rounded-lg" />
+						<div className="grid grid-cols-4 gap-2">
+							{[1, 2, 3, 4].map((i) => (
+								<Skeleton
+									key={i}
+									className="h-20 w-full rounded"
+								/>
+							))}
+						</div>
+					</div>
+
+					{/* Product details skeleton */}
+					<div className="space-y-6">
+						<div>
+							<Skeleton className="h-10 w-3/4 mb-2" />
+							<Skeleton className="h-6 w-1/2" />
+						</div>
+
+						<div className="flex gap-4">
+							<Skeleton className="h-8 w-24" />
+							<Skeleton className="h-8 w-32" />
+						</div>
+
+						<div>
+							<Skeleton className="h-6 w-32 mb-2" />
+							<Skeleton className="h-20 w-full" />
+						</div>
+
+						<Card>
+							<CardHeader>
+								<Skeleton className="h-6 w-40" />
+							</CardHeader>
+							<CardContent className="space-y-2">
+								<Skeleton className="h-5 w-full" />
+								<Skeleton className="h-5 w-3/4" />
+							</CardContent>
+						</Card>
+					</div>
+				</div>
 			</div>
 		);
 	}

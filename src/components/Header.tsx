@@ -41,6 +41,7 @@ export default function Header() {
 	const [activeCompany, setActiveCompany] = useState<string | null>(null);
 	const [companies, setCompanies] = useState<Company[]>([]);
 	const [brands, setBrands] = useState<Brand[]>([]);
+	const [isLoadingData, setIsLoadingData] = useState(true);
 	const dropdownRef = useRef<HTMLDivElement>(null);
 	const companyTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 	const { isLoggedIn, user, logout } = useAdmin();
@@ -49,6 +50,7 @@ export default function Header() {
 	// Load companies and brands
 	useEffect(() => {
 		const fetchData = async () => {
+			setIsLoadingData(true);
 			try {
 				const [companiesRes, brandsRes] = await Promise.all([
 					fetch("/api/companies"),
@@ -66,6 +68,8 @@ export default function Header() {
 				}
 			} catch (error) {
 				console.error("Error fetching data:", error);
+			} finally {
+				setIsLoadingData(false);
 			}
 		};
 		fetchData();
@@ -217,113 +221,123 @@ export default function Header() {
 											'Arial, "Helvetica Neue", Helvetica, sans-serif',
 									}}
 								>
-									{companies.map((company) => {
-										const isCompanyActive =
-											pathname?.startsWith(
-												`/companies/${company._id}`
-											) ||
-											company._id ===
-												currentBrandCompanyId;
+									{isLoadingData ? (
+										<div className="px-6 py-8 flex justify-center">
+											<div className="animate-spin rounded-full h-6 w-6 border-b-2 border-green-700"></div>
+										</div>
+									) : companies.length === 0 ? (
+										<div className="px-6 py-3 text-gray-500 text-center text-sm font-normal">
+											Không có công ty
+										</div>
+									) : (
+										companies.map((company) => {
+											const isCompanyActive =
+												pathname?.startsWith(
+													`/companies/${company._id}`
+												) ||
+												company._id ===
+													currentBrandCompanyId;
 
-										return (
-											<div
-												key={company._id}
-												className="relative"
-												onMouseEnter={() =>
-													handleCompanyHover(
-														company._id
-													)
-												}
-												onMouseLeave={
-													handleCompanyLeave
-												}
-											>
+											return (
 												<div
-													className={`px-6 py-3 transition-colors cursor-pointer flex items-center justify-between min-w-0
-                    ${isCompanyActive ? "bg-green-50" : "hover:bg-gray-50"}`}
-												>
-													<div className="min-w-0">
-														<Link
-															href={`/companies/${company._id}`}
-															className="font-normal text-gray-800 hover:text-gray-900 text-sm"
-														>
-															{company.name}
-														</Link>
-													</div>
-													<ChevronRight className="w-3 h-3 text-gray-400" />
-												</div>
-
-												{/* Company Brands Submenu */}
-												{activeCompany ===
-													company._id && (
-													<div
-														className="absolute left-full top-0 -ml-2 w-72 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-[60]"
-														onMouseEnter={() => {
-															if (
-																companyTimeoutRef.current
-															)
-																clearTimeout(
-																	companyTimeoutRef.current
-																);
-														}}
-														onMouseLeave={
-															handleCompanyLeave
-														}
-														onMouseDown={(e) =>
-															e.stopPropagation()
-														}
-													>
-														{/* cầu nối */}
-														<div className="absolute -left-2 top-0 h-full w-2 bg-transparent pointer-events-auto" />
-														{getCompanyBrands(
+													key={company._id}
+													className="relative"
+													onMouseEnter={() =>
+														handleCompanyHover(
 															company._id
-														).length > 0 ? (
-															<div className="grid grid-cols-1 gap-2 px-2 items-stretch">
-																{getCompanyBrands(
-																	company._id
-																).map(
-																	(brand) => {
-																		const isBrandActive =
-																			pathname ===
-																			`/brands/${brand._id}`;
+														)
+													}
+													onMouseLeave={
+														handleCompanyLeave
+													}
+												>
+													<div
+														className={`px-6 py-3 transition-colors cursor-pointer flex items-center justify-between min-w-0
+                    ${isCompanyActive ? "bg-green-50" : "hover:bg-gray-50"}`}
+													>
+														<div className="min-w-0">
+															<Link
+																href={`/companies/${company._id}`}
+																className="font-normal text-gray-800 hover:text-gray-900 text-sm"
+															>
+																{company.name}
+															</Link>
+														</div>
+														<ChevronRight className="w-3 h-3 text-gray-400" />
+													</div>
 
-																		return (
-																			<Link
-																				key={
-																					brand._id
-																				}
-																				href={`/brands/${brand._id}`}
-																				className={`block w-full h-full min-w-0 rounded px-3 py-2 text-sm font-normal whitespace-nowrap
+													{/* Company Brands Submenu */}
+													{activeCompany ===
+														company._id && (
+														<div
+															className="absolute left-full top-0 -ml-2 w-72 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-[60]"
+															onMouseEnter={() => {
+																if (
+																	companyTimeoutRef.current
+																)
+																	clearTimeout(
+																		companyTimeoutRef.current
+																	);
+															}}
+															onMouseLeave={
+																handleCompanyLeave
+															}
+															onMouseDown={(e) =>
+																e.stopPropagation()
+															}
+														>
+															{/* cầu nối */}
+															<div className="absolute -left-2 top-0 h-full w-2 bg-transparent pointer-events-auto" />
+															{getCompanyBrands(
+																company._id
+															).length > 0 ? (
+																<div className="grid grid-cols-1 gap-2 px-2 items-stretch">
+																	{getCompanyBrands(
+																		company._id
+																	).map(
+																		(
+																			brand
+																		) => {
+																			const isBrandActive =
+																				pathname ===
+																				`/brands/${brand._id}`;
+
+																			return (
+																				<Link
+																					key={
+																						brand._id
+																					}
+																					href={`/brands/${brand._id}`}
+																					className={`block w-full h-full min-w-0 rounded px-3 py-2 text-sm font-normal whitespace-nowrap
         ${
 			isBrandActive
 				? "bg-green-50 text-green-700"
 				: "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
 		}`}
-																			>
-																				{
-																					brand.name
-																				}
-																			</Link>
-																		);
-																	}
-																)}
-															</div>
-														) : (
-															<div className="px-4 py-3 text-gray-500 text-center text-sm font-normal">
-																Không có thương
-																hiệu
-															</div>
-														)}
-													</div>
-												)}
-											</div>
-										);
-									})}
-
-									{companies.length === 0 && (
-										<div className="px-6 py-3 text-gray-500 text-center text-sm font-normal">
-											Không có công ty
-										</div>
+																				>
+																					{
+																						brand.name
+																					}
+																				</Link>
+																			);
+																		}
+																	)}
+																</div>
+															) : isLoadingData ? (
+																<div className="px-4 py-6 flex justify-center">
+																	<div className="animate-spin rounded-full h-5 w-5 border-b-2 border-green-700"></div>
+																</div>
+															) : (
+																<div className="px-4 py-3 text-gray-500 text-center text-sm font-normal">
+																	Không có
+																	thương hiệu
+																</div>
+															)}
+														</div>
+													)}
+												</div>
+											);
+										})
 									)}
 								</div>
 							)}

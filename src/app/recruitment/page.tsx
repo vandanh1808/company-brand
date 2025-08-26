@@ -22,6 +22,8 @@ import {
 	CalendarDays,
 	Briefcase,
 } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { PageSpinner } from "@/components/ui/spinner";
 
 interface JobOpening {
 	_id: string;
@@ -293,10 +295,31 @@ export default function RecruitmentPage() {
 				<h2 className="text-3xl font-bold mb-8">Tin tuyển dụng</h2>
 
 				{loading ? (
-					<div className="text-center py-8">
-						<div className="text-lg">
-							Đang tải tin tuyển dụng...
-						</div>
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+						{[1, 2].map((i) => (
+							<Card
+								key={i}
+								className="overflow-hidden rounded-2xl"
+							>
+								<Skeleton className="h-16 rounded-none" />
+								<div className="p-6 space-y-6">
+									<Skeleton className="h-20" />
+									<div className="rounded-xl border p-5">
+										<Skeleton className="h-5 w-32 mb-3" />
+										<div className="space-y-2">
+											<Skeleton className="h-4 w-full" />
+											<Skeleton className="h-4 w-5/6" />
+											<Skeleton className="h-4 w-4/5" />
+										</div>
+									</div>
+									<div className="grid grid-cols-2 gap-4">
+										<Skeleton className="h-20 rounded-xl" />
+										<Skeleton className="h-20 rounded-xl" />
+									</div>
+									<Skeleton className="h-24 rounded-xl" />
+								</div>
+							</Card>
+						))}
 					</div>
 				) : jobOpenings.length === 0 ? (
 					<div className="text-center py-8">

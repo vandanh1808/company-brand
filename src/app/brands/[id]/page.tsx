@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowLeft, Package, DollarSign, ShoppingCart } from "lucide-react";
 import Image from "next/image";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Brand {
 	_id: string;
@@ -74,8 +75,54 @@ export default function BrandPage() {
 	if (loading) {
 		return (
 			<div className="container mx-auto px-4 py-8">
-				<div className="flex items-center justify-center min-h-[400px]">
-					<div className="text-xl">Đang tải...</div>
+				{/* Back button skeleton */}
+				<div className="mb-6">
+					<Skeleton className="h-6 w-48" />
+				</div>
+
+				{/* Brand header skeleton */}
+				<div className="mb-10">
+					<div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+						<div>
+							<Skeleton className="h-10 w-64 mb-2" />
+							<Skeleton className="h-6 w-48" />
+						</div>
+						<Skeleton className="h-10 w-32" />
+					</div>
+					<Card className="border-none">
+						<CardContent className="pt-6">
+							<Skeleton className="h-6 w-full mb-2" />
+							<Skeleton className="h-6 w-3/4" />
+						</CardContent>
+					</Card>
+				</div>
+
+				{/* Products section skeleton */}
+				<div className="mb-8">
+					<div className="flex items-center justify-between mb-8">
+						<Skeleton className="h-8 w-48" />
+						<Skeleton className="h-8 w-32" />
+					</div>
+
+					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+						{[1, 2, 3, 4].map((i) => (
+							<Card key={i} className="h-full overflow-hidden">
+								<Skeleton className="h-56 w-full rounded-none" />
+								<CardHeader className="pb-1">
+									<Skeleton className="h-5 w-3/4 mb-1" />
+									<Skeleton className="h-5 w-1/2" />
+								</CardHeader>
+								<CardContent className="space-y-2">
+									<Skeleton className="h-4 w-full" />
+									<Skeleton className="h-4 w-5/6" />
+									<div className="pt-2 border-t">
+										<Skeleton className="h-6 w-full" />
+									</div>
+									<Skeleton className="h-10 w-full rounded-lg" />
+								</CardContent>
+							</Card>
+						))}
+					</div>
 				</div>
 			</div>
 		);

@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/table";
 import { toast } from "sonner";
 import { Plus, Edit2, Trash2, Eye, Search, ArrowLeft } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
 	Dialog,
 	DialogContent,
@@ -268,9 +269,13 @@ export default function AdminCompaniesPage() {
 							</CardTitle>
 						</CardHeader>
 						<CardContent>
-							<div className="text-2xl font-bold">
-								{companies.length}
-							</div>
+							{loading ? (
+								<Skeleton className="h-8 w-16" />
+							) : (
+								<div className="text-2xl font-bold">
+									{companies.length}
+								</div>
+							)}
 						</CardContent>
 					</Card>
 					<Card>
@@ -280,13 +285,17 @@ export default function AdminCompaniesPage() {
 							</CardTitle>
 						</CardHeader>
 						<CardContent>
-							<div className="text-2xl font-bold">
-								{companies.reduce(
-									(sum, company) =>
-										sum + (company.visitors || 0),
-									0
-								)}
-							</div>
+							{loading ? (
+								<Skeleton className="h-8 w-20" />
+							) : (
+								<div className="text-2xl font-bold">
+									{companies.reduce(
+										(sum, company) =>
+											sum + (company.visitors || 0),
+										0
+									)}
+								</div>
+							)}
 						</CardContent>
 					</Card>
 					<Card>
@@ -296,9 +305,13 @@ export default function AdminCompaniesPage() {
 							</CardTitle>
 						</CardHeader>
 						<CardContent>
-							<div className="text-2xl font-bold">
-								{filteredCompanies.length}
-							</div>
+							{loading ? (
+								<Skeleton className="h-8 w-16" />
+							) : (
+								<div className="text-2xl font-bold">
+									{filteredCompanies.length}
+								</div>
+							)}
 						</CardContent>
 					</Card>
 				</div>
@@ -309,7 +322,26 @@ export default function AdminCompaniesPage() {
 						<CardTitle>Companies List</CardTitle>
 					</CardHeader>
 					<CardContent>
-						{filteredCompanies.length === 0 ? (
+						{loading ? (
+							<div className="space-y-4">
+								{[1, 2, 3, 4].map((i) => (
+									<div
+										key={i}
+										className="flex items-center justify-between py-3"
+									>
+										<div className="space-y-2">
+											<Skeleton className="h-5 w-48" />
+											<Skeleton className="h-4 w-64" />
+										</div>
+										<div className="flex gap-2">
+											<Skeleton className="h-8 w-8" />
+											<Skeleton className="h-8 w-8" />
+											<Skeleton className="h-8 w-8" />
+										</div>
+									</div>
+								))}
+							</div>
+						) : filteredCompanies.length === 0 ? (
 							<div className="text-center py-8">
 								<p className="text-muted-foreground">
 									{searchTerm
