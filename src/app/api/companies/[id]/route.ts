@@ -1,119 +1,163 @@
-import { NextRequest, NextResponse } from 'next/server'
-import dbConnect from '@/lib/mongodb'
-import Company from '@/models/Company'
+import { NextRequest, NextResponse } from "next/server";
+import dbConnect from "@/lib/mongodb";
+import Company from "@/models/Company";
+import Brand from "@/models/Brand";
+import Product from "@/models/Product";
 
 export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+	request: NextRequest,
+	{ params }: { params: Promise<{ id: string }> }
 ) {
-  try {
-    await dbConnect()
-    const { id } = await params
-    const company = await Company.findById(id)
-    
-    if (!company) {
-      return NextResponse.json(
-        { success: false, error: 'Company not found' },
-        { status: 404 }
-      )
-    }
+	try {
+		await dbConnect();
+		const { id } = await params;
+		const company = await Company.findById(id);
 
-    // Increment visitor count
-    company.visitors += 1
-    await company.save()
+		if (!company) {
+			return NextResponse.json(
+				{ success: false, error: "Company not found" },
+				{ status: 404 }
+			);
+		}
 
-    return NextResponse.json({ success: true, data: company })
-  } catch (error) {
-    return NextResponse.json(
-      { success: false, error: error instanceof Error ? error.message : 'An unknown error occurred' },
-      { status: 500 }
-    )
-  }
+		// Increment visitor count
+		company.visitors += 1;
+		await company.save();
+
+		return NextResponse.json({ success: true, data: company });
+	} catch (error) {
+		return NextResponse.json(
+			{
+				success: false,
+				error:
+					error instanceof Error
+						? error.message
+						: "An unknown error occurred",
+			},
+			{ status: 500 }
+		);
+	}
 }
 
 export async function PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+	request: NextRequest,
+	{ params }: { params: Promise<{ id: string }> }
 ) {
-  try {
-    await dbConnect()
-    const { id } = await params
-    const body = await request.json()
-    
-    const company = await Company.findByIdAndUpdate(
-      id,
-      body,
-      { new: true, runValidators: true }
-    )
-    
-    if (!company) {
-      return NextResponse.json(
-        { success: false, error: 'Company not found' },
-        { status: 404 }
-      )
-    }
+	try {
+		await dbConnect();
+		const { id } = await params;
+		const body = await request.json();
 
-    return NextResponse.json({ success: true, data: company })
-  } catch (error) {
-    return NextResponse.json(
-      { success: false, error: error instanceof Error ? error.message : 'An unknown error occurred' },
-      { status: 400 }
-    )
-  }
+		const company = await Company.findByIdAndUpdate(id, body, {
+			new: true,
+			runValidators: true,
+		});
+
+		if (!company) {
+			return NextResponse.json(
+				{ success: false, error: "Company not found" },
+				{ status: 404 }
+			);
+		}
+
+		return NextResponse.json({ success: true, data: company });
+	} catch (error) {
+		return NextResponse.json(
+			{
+				success: false,
+				error:
+					error instanceof Error
+						? error.message
+						: "An unknown error occurred",
+			},
+			{ status: 400 }
+		);
+	}
 }
 
 export async function PATCH(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+	request: NextRequest,
+	{ params }: { params: Promise<{ id: string }> }
 ) {
-  try {
-    await dbConnect()
-    const { id } = await params
-    const body = await request.json()
-    
-    const company = await Company.findByIdAndUpdate(
-      id,
-      body,
-      { new: true, runValidators: true }
-    )
-    
-    if (!company) {
-      return NextResponse.json(
-        { success: false, error: 'Company not found' },
-        { status: 404 }
-      )
-    }
+	try {
+		await dbConnect();
+		const { id } = await params;
+		const body = await request.json();
 
-    return NextResponse.json({ success: true, data: company })
-  } catch (error) {
-    return NextResponse.json(
-      { success: false, error: error instanceof Error ? error.message : 'An unknown error occurred' },
-      { status: 400 }
-    )
-  }
+		const company = await Company.findByIdAndUpdate(id, body, {
+			new: true,
+			runValidators: true,
+		});
+
+		if (!company) {
+			return NextResponse.json(
+				{ success: false, error: "Company not found" },
+				{ status: 404 }
+			);
+		}
+
+		return NextResponse.json({ success: true, data: company });
+	} catch (error) {
+		return NextResponse.json(
+			{
+				success: false,
+				error:
+					error instanceof Error
+						? error.message
+						: "An unknown error occurred",
+			},
+			{ status: 400 }
+		);
+	}
 }
 
 export async function DELETE(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+	request: NextRequest,
+	{ params }: { params: Promise<{ id: string }> }
 ) {
-  try {
-    await dbConnect()
-    const { id } = await params
-    const company = await Company.findByIdAndDelete(id)
-    
-    if (!company) {
-      return NextResponse.json(
-        { success: false, error: 'Company not found' },
-        { status: 404 }
-      )
-    }
+	try {
+		await dbConnect();
+		const { id } = await params;
 
-    return NextResponse.json({ success: true, data: company })
-  } catch (error) {
-    return NextResponse.json(
-      { success: false, error: error instanceof Error ? error.message : 'An unknown error occurred' },
-      { status: 500 }
-    )
-  }
+		// First check if company exists
+		const company = await Company.findById(id);
+		if (!company) {
+			return NextResponse.json(
+				{ success: false, error: "Company not found" },
+				{ status: 404 }
+			);
+		}
+
+		// Find all brands belonging to this company
+		const brands = await Brand.find({ companyId: id });
+		const brandIds = brands.map((brand) => brand._id);
+
+		// Delete all products belonging to these brands
+		if (brandIds.length > 0) {
+			await Product.deleteMany({ brandId: { $in: brandIds } });
+		}
+
+		// Delete all brands belonging to this company
+		await Brand.deleteMany({ companyId: id });
+
+		// Finally delete the company
+		await Company.findByIdAndDelete(id);
+
+		return NextResponse.json({
+			success: true,
+			data: company,
+			message: `Deleted company "${company.name}" along with ${brands.length} brands and their products`,
+		});
+	} catch (error) {
+		return NextResponse.json(
+			{
+				success: false,
+				error:
+					error instanceof Error
+						? error.message
+						: "An unknown error occurred",
+			},
+			{ status: 500 }
+		);
+	}
 }

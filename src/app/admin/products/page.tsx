@@ -909,10 +909,10 @@ export default function AdminProductsPage() {
 					p.description
 						.toLowerCase()
 						.includes(searchTerm.toLowerCase())) ||
-				p.brandId.name
+				p.brandId?.name
 					.toLowerCase()
 					.includes(searchTerm.toLowerCase()) ||
-				p.brandId.companyId.name
+				p.brandId?.companyId.name
 					.toLowerCase()
 					.includes(searchTerm.toLowerCase())
 		);
@@ -920,7 +920,7 @@ export default function AdminProductsPage() {
 		// Filter by company if selected
 		if (selectedCompanyId) {
 			filtered = filtered.filter(
-				(p) => p.brandId.companyId._id === selectedCompanyId
+				(p) => p.brandId?.companyId._id === selectedCompanyId
 			);
 		}
 
@@ -1266,12 +1266,15 @@ export default function AdminProductsPage() {
 										</TableCell>
 										<TableCell>
 											<Badge variant="outline">
-												{product.brandId.name}
+												{product.brandId?.name}
 											</Badge>
 										</TableCell>
 										<TableCell>
 											<Badge variant="secondary">
-												{product.brandId.companyId.name}
+												{
+													product.brandId?.companyId
+														.name
+												}
 											</Badge>
 										</TableCell>
 										<TableCell>

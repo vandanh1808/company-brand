@@ -122,24 +122,45 @@ export default function AdminBrandsPage() {
 	};
 
 	const handleDelete = async (id: string, name: string) => {
-		if (!confirm(`Are you sure you want to delete "${name}"?`)) {
-			return;
-		}
-
+		// First, check if brand has products
 		try {
+			const productsResponse = await fetch("/api/products");
+			const productsData = await productsResponse.json();
+			console.log(productsData);
+			const brandProducts =
+				productsData.data?.filter(
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					(product: any) =>
+						product.brandId?._id === id || product.brandId === id
+				) || [];
+
+			let warningMessage = `Bạn có chắc chắn muốn xóa thương hiệu "${name}"?`;
+
+			if (brandProducts.length > 0) {
+				warningMessage = `⚠️ CẢNH BÁO: Xóa thương hiệu "${name}" sẽ đồng thời xóa:\n\n`;
+				warningMessage += `• ${brandProducts.length} sản phẩm\n\n`;
+				warningMessage += `Hành động này không thể hoàn tác. Bạn có chắc chắn muốn tiếp tục?`;
+			}
+
+			if (!confirm(warningMessage)) {
+				return;
+			}
+
 			const response = await fetch(`/api/brands/${id}`, {
 				method: "DELETE",
 			});
 
 			if (response.ok) {
 				setBrands(brands.filter((brand) => brand._id !== id));
-				toast.success("Brand deleted successfully");
+				toast.success(
+					"Đã xóa thương hiệu và tất cả sản phẩm liên quan"
+				);
 			} else {
-				toast.error("Failed to delete brand");
+				toast.error("Không thể xóa thương hiệu");
 			}
 		} catch (error) {
 			console.error("Error deleting brand:", error);
-			toast.error("Error deleting brand");
+			toast.error("Lỗi khi xóa thương hiệu");
 		}
 	};
 

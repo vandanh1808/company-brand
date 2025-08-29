@@ -228,59 +228,6 @@ export default function AdminDashboard() {
 					</CardContent>
 				</Card>
 			</div>
-
-			{/* Quick Actions */}
-			<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-				<Card>
-					<CardHeader>
-						<CardTitle className="flex items-center">
-							<Plus className="w-5 h-5 mr-2" />
-							Thao Tác Nhanh
-						</CardTitle>
-						<CardDescription>
-							Các tác vụ quản trị thường dùng
-						</CardDescription>
-					</CardHeader>
-					<CardContent className="space-y-3">
-						<Link href="/admin/companies/new">
-							<Button
-								variant="outline"
-								className="w-full justify-start"
-							>
-								<Building2 className="w-4 h-4 mr-2" />
-								Thêm Công Ty Mới
-							</Button>
-						</Link>
-						<Link href="/admin/brands/new">
-							<Button
-								variant="outline"
-								className="w-full justify-start"
-							>
-								<Package className="w-4 h-4 mr-2" />
-								Thêm Thương Hiệu Mới
-							</Button>
-						</Link>
-						<Link href="/admin/products/new">
-							<Button
-								variant="outline"
-								className="w-full justify-start"
-							>
-								<ShoppingBag className="w-4 h-4 mr-2" />
-								Thêm Sản Phẩm Mới
-							</Button>
-						</Link>
-						<Link href="/admin/job-openings">
-							<Button
-								variant="outline"
-								className="w-full justify-start"
-							>
-								<Briefcase className="w-4 h-4 mr-2" />
-								Thêm Tin Tuyển Dụng
-							</Button>
-						</Link>
-					</CardContent>
-				</Card>
-			</div>
 		</div>
 	);
 }

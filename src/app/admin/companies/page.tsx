@@ -97,24 +97,42 @@ export default function AdminCompaniesPage() {
 	};
 
 	const handleDelete = async (id: string, name: string) => {
-		if (!confirm(`Are you sure you want to delete "${name}"?`)) {
-			return;
-		}
-
+		// First, check if company has brands
 		try {
+			const brandsResponse = await fetch("/api/brands");
+			const brandsData = await brandsResponse.json();
+			const companyBrands =
+				brandsData.data?.filter(
+					(brand: any) =>
+						brand.companyId?._id === id || brand.companyId === id
+				) || [];
+
+			let warningMessage = `Bạn có chắc chắn muốn xóa công ty "${name}"?`;
+
+			if (companyBrands.length > 0) {
+				warningMessage = `⚠️ CẢNH BÁO: Xóa công ty "${name}" sẽ đồng thời xóa:\n\n`;
+				warningMessage += `• ${companyBrands.length} thương hiệu\n`;
+				warningMessage += `• Tất cả sản phẩm liên quan\n\n`;
+				warningMessage += `Hành động này không thể hoàn tác. Bạn có chắc chắn muốn tiếp tục?`;
+			}
+
+			if (!confirm(warningMessage)) {
+				return;
+			}
+
 			const response = await fetch(`/api/companies/${id}`, {
 				method: "DELETE",
 			});
 
 			if (response.ok) {
 				setCompanies(companies.filter((company) => company._id !== id));
-				toast.success("Company deleted successfully");
+				toast.success("Đã xóa công ty và tất cả dữ liệu liên quan");
 			} else {
-				toast.error("Failed to delete company");
+				toast.error("Không thể xóa công ty");
 			}
 		} catch (error) {
 			console.error("Error deleting company:", error);
-			toast.error("Error deleting company");
+			toast.error("Lỗi khi xóa công ty");
 		}
 	};
 
