@@ -181,14 +181,14 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-3">
             <Image
-              src="/home/logo.jpg"
+              src="/home/logo.png"
               alt="Vĩnh Tường Hưng Logo"
               width={50}
               height={50}
               className="rounded"
             />
             <div>
-              <div className="text-xs text-gray-600 font-normal -mt-0.5">
+              <div className="text-sm text-gray-600 font-normal -mt-0.5">
                 CÔNG TY TNHH
               </div>
               <div className="text-xl font-bold text-gray-900">
