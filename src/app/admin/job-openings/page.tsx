@@ -303,7 +303,7 @@ export default function AdminJobOpeningsPage() {
 						<Link href="/admin">
 							<Button variant="ghost" size="sm">
 								<ArrowLeft className="w-4 h-4 mr-2" />
-								Về Dashboard
+								Về Bảng điều khiển
 							</Button>
 						</Link>
 						<div>

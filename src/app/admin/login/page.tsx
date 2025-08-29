@@ -109,7 +109,7 @@ export default function AdminLogin() {
 				</form>
 
 				<div className="mt-6 text-center">
-					<p className="text-sm text-gray-600">
+					{/* <p className="text-sm text-gray-600">
 						Chưa có tài khoản?{" "}
 						<Link
 							href="/admin/register"
@@ -117,7 +117,7 @@ export default function AdminLogin() {
 						>
 							Đăng ký tại đây
 						</Link>
-					</p>
+					</p> */}
 					<Link
 						href="/"
 						className="text-sm text-gray-600 hover:text-gray-900 mt-2 inline-block"
