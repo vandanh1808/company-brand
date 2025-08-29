@@ -49,31 +49,46 @@ export default function Header() {
 	console.log("activeDropdown:", activeDropdown);
 
 	// Load companies and brands
-	useEffect(() => {
-		const fetchData = async () => {
-			setIsLoadingData(true);
-			try {
-				const [companiesRes, brandsRes] = await Promise.all([
-					fetch("/api/companies"),
-					fetch("/api/brands"),
-				]);
+	const fetchData = async () => {
+		setIsLoadingData(true);
+		try {
+			const [companiesRes, brandsRes] = await Promise.all([
+				fetch("/api/companies"),
+				fetch("/api/brands"),
+			]);
 
-				const companiesData = await companiesRes.json();
-				const brandsData = await brandsRes.json();
+			const companiesData = await companiesRes.json();
+			const brandsData = await brandsRes.json();
 
-				if (companiesData.success) {
-					setCompanies(companiesData.data);
-				}
-				if (brandsData.success) {
-					setBrands(brandsData.data);
-				}
-			} catch (error) {
-				console.error("Error fetching data:", error);
-			} finally {
-				setIsLoadingData(false);
+			if (companiesData.success) {
+				setCompanies(companiesData.data);
 			}
-		};
+			if (brandsData.success) {
+				setBrands(brandsData.data);
+			}
+		} catch (error) {
+			console.error("Error fetching data:", error);
+		} finally {
+			setIsLoadingData(false);
+		}
+	};
+
+	useEffect(() => {
 		fetchData();
+	}, []);
+
+	// Listen for data refresh events
+	useEffect(() => {
+		const handleRefreshData = () => {
+			fetchData();
+		};
+
+		// Listen for custom refresh events
+		window.addEventListener("refreshHeaderData", handleRefreshData);
+
+		return () => {
+			window.removeEventListener("refreshHeaderData", handleRefreshData);
+		};
 	}, []);
 
 	useEffect(() => {

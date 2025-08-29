@@ -155,6 +155,8 @@ export default function AdminBrandsPage() {
 				toast.success(
 					"Đã xóa thương hiệu và tất cả sản phẩm liên quan"
 				);
+				// Refresh header data
+				window.dispatchEvent(new CustomEvent("refreshHeaderData"));
 			} else {
 				toast.error("Không thể xóa thương hiệu");
 			}
@@ -228,6 +230,8 @@ export default function AdminBrandsPage() {
 					prev.map((b) => (b._id === editing._id ? updated : b))
 				);
 				toast.success("Brand updated successfully");
+				// Refresh header data
+				window.dispatchEvent(new CustomEvent("refreshHeaderData"));
 			} else {
 				// CREATE
 				const res = await fetch(`/api/brands`, {
@@ -258,6 +262,8 @@ export default function AdminBrandsPage() {
 
 				setBrands((prev) => [created, ...prev]);
 				toast.success("Brand created successfully");
+				// Refresh header data
+				window.dispatchEvent(new CustomEvent("refreshHeaderData"));
 			}
 
 			setIsUpsertOpen(false);

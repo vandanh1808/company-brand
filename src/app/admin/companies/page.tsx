@@ -127,6 +127,8 @@ export default function AdminCompaniesPage() {
 			if (response.ok) {
 				setCompanies(companies.filter((company) => company._id !== id));
 				toast.success("Đã xóa công ty và tất cả dữ liệu liên quan");
+				// Refresh header data
+				window.dispatchEvent(new CustomEvent("refreshHeaderData"));
 			} else {
 				toast.error("Không thể xóa công ty");
 			}
@@ -192,6 +194,8 @@ export default function AdminCompaniesPage() {
 					prev.map((c) => (c._id === editing._id ? updated : c))
 				);
 				toast.success("Company updated successfully");
+				// Refresh header data
+				window.dispatchEvent(new CustomEvent("refreshHeaderData"));
 			} else {
 				// CREATE
 				const res = await fetch(`/api/companies`, {
@@ -210,6 +214,8 @@ export default function AdminCompaniesPage() {
 				};
 				setCompanies((prev) => [created, ...prev]);
 				toast.success("Company created successfully");
+				// Refresh header data
+				window.dispatchEvent(new CustomEvent("refreshHeaderData"));
 			}
 			setIsUpsertOpen(false);
 		} catch (e: unknown) {
