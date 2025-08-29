@@ -191,7 +191,7 @@ export default function Header() {
 							Thông tin công ty
 						</Link>
 
-						{/* Công ty phân phối */}
+						{/* Công ty đang phân phối */}
 						<div
 							className="relative"
 							onMouseEnter={() => handleMouseEnter("companies")}
@@ -208,7 +208,7 @@ export default function Header() {
 				}
                 `}
 							>
-								<span>Công ty phân phối</span>
+								<span>Công ty đang phân phối</span>
 								<ChevronDown className="w-3 h-3" />
 							</button>
 
@@ -490,7 +490,7 @@ export default function Header() {
 								Thông tin công ty
 							</Link>
 
-							{/* Công ty phân phối */}
+							{/* Công ty đang phân phối */}
 							<div>
 								<button
 									onClick={(e) => {
@@ -514,7 +514,7 @@ export default function Header() {
 		}
     `}
 								>
-									<span>Công ty phân phối</span>
+									<span>Công ty đang phân phối</span>
 									<ChevronDown className="w-4 h-4 shrink-0" />
 								</button>
 								{(activeDropdown === "companies" ||

@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PageSpinner } from "@/components/ui/spinner";
+import { COMPANY_INFO } from "../data/companyInfo";
 
 interface JobOpening {
 	_id: string;
@@ -147,30 +148,6 @@ export default function RecruitmentPage() {
 		}
 	};
 
-	const companyInfo = {
-		name: "TechCorp Enterprise",
-		description:
-			"Leading technology company specializing in innovative solutions for the digital age. We are committed to creating cutting-edge products that transform how businesses operate.",
-		address: "123 Innovation Street, Tech District, Ho Chi Minh City",
-		phone: "+84 (0)28 1234 5678",
-		email: "careers@techcorp.com",
-		website: "https://techcorp.com",
-		employees: "500-1000",
-		founded: "2010",
-		industry: "Technology & Software",
-	};
-
-	const benefits = [
-		"Competitive salary and performance bonuses",
-		"Comprehensive health insurance",
-		"Flexible working hours and remote work options",
-		"Professional development opportunities",
-		"Modern office with latest technology",
-		"Team building events and company trips",
-		"Free meals and snacks",
-		"Gym membership reimbursement",
-	];
-
 	return (
 		<div className="container mx-auto px-4 py-8">
 			<div className="mb-6">
@@ -179,7 +156,7 @@ export default function RecruitmentPage() {
 					className="inline-flex items-center text-muted-foreground hover:text-foreground"
 				>
 					<ArrowLeft className="w-4 h-4 mr-2" />
-					Back to Home
+					Quay lại trang chủ
 				</Link>
 			</div>
 
@@ -189,10 +166,10 @@ export default function RecruitmentPage() {
 				<div className="relative z-10 flex items-center justify-center h-full text-white text-center">
 					<div>
 						<h1 className="text-4xl md:text-6xl font-bold mb-4">
-							Join Our Team
+							Vĩnh Tường Hưng
 						</h1>
 						<p className="text-xl md:text-2xl">
-							Build the future with us
+							Làm việc hăng say, dựng xây tương lai
 						</p>
 					</div>
 				</div>
@@ -201,89 +178,29 @@ export default function RecruitmentPage() {
 			{/* Company Information */}
 			<section className="mb-12">
 				<h2 className="text-3xl font-bold mb-8">
-					About {companyInfo.name}
+					Về {COMPANY_INFO.name}
 				</h2>
-
-				<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-					<Card>
-						<CardHeader>
-							<CardTitle className="flex items-center">
-								<Target className="w-5 h-5 mr-2" />
-								Our Mission
-							</CardTitle>
-						</CardHeader>
-						<CardContent>
-							<p className="text-muted-foreground">
-								{companyInfo.description}
-							</p>
-						</CardContent>
-					</Card>
-
-					<Card>
-						<CardHeader>
-							<CardTitle className="flex items-center">
-								<Award className="w-5 h-5 mr-2" />
-								Company Facts
-							</CardTitle>
-						</CardHeader>
-						<CardContent className="space-y-3">
-							<div className="flex justify-between">
-								<span className="text-muted-foreground">
-									Founded:
-								</span>
-								<span className="font-semibold">
-									{companyInfo.founded}
-								</span>
-							</div>
-							<div className="flex justify-between">
-								<span className="text-muted-foreground">
-									Industry:
-								</span>
-								<span className="font-semibold">
-									{companyInfo.industry}
-								</span>
-							</div>
-							<div className="flex justify-between">
-								<span className="text-muted-foreground">
-									Team Size:
-								</span>
-								<span className="font-semibold">
-									{companyInfo.employees}
-								</span>
-							</div>
-						</CardContent>
-					</Card>
-				</div>
 
 				<Card className="mt-8">
 					<CardHeader>
 						<CardTitle className="flex items-center">
 							<MapPin className="w-5 h-5 mr-2" />
-							Contact Information
+							Thông tin liên hệ
 						</CardTitle>
 					</CardHeader>
 					<CardContent className="space-y-4">
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 							<div className="flex items-center">
 								<MapPin className="w-4 h-4 mr-3 text-muted-foreground" />
-								<span>{companyInfo.address}</span>
+								<span>{COMPANY_INFO.address}</span>
 							</div>
 							<div className="flex items-center">
 								<Phone className="w-4 h-4 mr-3 text-muted-foreground" />
-								<span>{companyInfo.phone}</span>
+								<span>{COMPANY_INFO.phone}</span>
 							</div>
 							<div className="flex items-center">
 								<Mail className="w-4 h-4 mr-3 text-muted-foreground" />
-								<span>{companyInfo.email}</span>
-							</div>
-							<div className="flex items-center">
-								<Users className="w-4 h-4 mr-3 text-muted-foreground" />
-								<a
-									href={companyInfo.website}
-									className="text-primary hover:underline"
-								>
-									Visit Website
-								</a>
+								<span>{COMPANY_INFO.email}</span>
 							</div>
 						</div>
 					</CardContent>
@@ -334,58 +251,6 @@ export default function RecruitmentPage() {
 						))}
 					</div>
 				)}
-			</section>
-
-			{/* Benefits */}
-			<section className="mb-12">
-				<h2 className="text-3xl font-bold mb-8">Why Work With Us</h2>
-
-				<Card>
-					<CardHeader>
-						<CardTitle>Benefits & Perks</CardTitle>
-						<CardDescription>
-							We believe in taking care of our team members
-						</CardDescription>
-					</CardHeader>
-					<CardContent>
-						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-							{benefits.map((benefit, index) => (
-								<div key={index} className="flex items-center">
-									<div className="w-2 h-2 bg-primary rounded-full mr-3"></div>
-									<span>{benefit}</span>
-								</div>
-							))}
-						</div>
-					</CardContent>
-				</Card>
-			</section>
-
-			{/* Call to Action */}
-			<section className="text-center">
-				<Card>
-					<CardContent className="pt-6">
-						<h3 className="text-2xl font-bold mb-4">
-							Ready to Join Us?
-						</h3>
-						<p className="text-muted-foreground mb-6">
-							Send your resume and cover letter to start your
-							journey with us
-						</p>
-						<div className="flex flex-col sm:flex-row gap-4 justify-center">
-							<Button size="lg" className="px-8">
-								<Mail className="w-4 h-4 mr-2" />
-								Send Application
-							</Button>
-							<Button
-								variant="outline"
-								size="lg"
-								className="px-8"
-							>
-								Learn More
-							</Button>
-						</div>
-					</CardContent>
-				</Card>
 			</section>
 		</div>
 	);
