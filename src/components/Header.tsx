@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useMemo } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
 	ChevronDown,
 	Menu,
@@ -166,17 +167,19 @@ export default function Header() {
 				<div className="flex justify-between items-center py-4">
 					{/* Logo */}
 					<Link href="/" className="flex items-center space-x-3">
-						<div className="w-10 h-10 bg-gradient-to-br from-green-700 to-green-900 rounded flex items-center justify-center">
-							<span className="text-white font-bold text-base">
-								EP
-							</span>
-						</div>
+						<Image
+							src="/home/logo.jpg"
+							alt="Vĩnh Tường Hưng Logo"
+							width={50}
+							height={50}
+							className="rounded"
+						/>
 						<div>
 							<div className="text-xl font-bold text-gray-900">
-								Enterprise
+								Vĩnh Tường Hưng
 							</div>
 							<div className="text-xs text-gray-600 font-normal -mt-0.5">
-								PLATFORM
+								CÔNG TY TNHH
 							</div>
 						</div>
 					</Link>
