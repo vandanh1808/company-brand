@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import {
 	COMPANY_INFO,
+	COMPANY_INTRODUCTION,
 	CONTACT_CTA,
 	CORE_VALUE_HEADER,
 	CORE_VALUES,
@@ -27,17 +28,54 @@ import {
 export default function Page() {
 	return (
 		<div className="container mx-auto px-4 py-8">
-			{/* Banner Section */}
-			{/* <div className="text-center mb-16">
-				<h1 className="text-5xl font-bold mb-4">
-					Về Enterprise Platform
-				</h1>
-				<p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-					Chúng tôi là nền tảng doanh nghiệp hàng đầu, kết nối các
-					công ty, thương hiệu và sản phẩm trong một hệ sinh thái toàn
-					diện, tạo ra giá trị bền vững cho mọi đối tác.
-				</p>
-			</div> */}
+			{/* Company Introduction Section */}
+			<section className="mb-16 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-8">
+				<div className="max-w-5xl mx-auto">
+					<h1 className="text-4xl font-bold text-center mb-8 text-blue-900">
+						{COMPANY_INTRODUCTION.title}
+					</h1>
+					<div className="space-y-6">
+						<p className="text-lg leading-relaxed text-gray-700">
+							{COMPANY_INTRODUCTION.description}
+						</p>
+						<p className="text-lg leading-relaxed text-gray-700">
+							{COMPANY_INTRODUCTION.network}
+						</p>
+						<div>
+							<h3 className="text-xl font-semibold mb-4 text-blue-900">
+								{COMPANY_INTRODUCTION.partnersTitle}
+							</h3>
+							<ul className="space-y-3">
+								{COMPANY_INTRODUCTION.partners.map(
+									(partner, index) => (
+										<li key={index} className="flex">
+											<span className="text-blue-600 mr-2">
+												•
+											</span>
+											<div>
+												<span className="font-semibold text-gray-800">
+													{partner.name}:
+												</span>{" "}
+												<span className="text-gray-700">
+													{partner.products}
+												</span>
+											</div>
+										</li>
+									)
+								)}
+								<li className="flex">
+									<span className="text-blue-600 mr-2">
+										•
+									</span>
+									<span className="text-gray-700">
+										{COMPANY_INTRODUCTION.additionalInfo}
+									</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</section>
 
 			{/* Core Values */}
 			<section className="mb-16">

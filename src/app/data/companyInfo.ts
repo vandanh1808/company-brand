@@ -7,6 +7,33 @@ export const COMPANY_INFO = {
 	email: "vinhtuonghung4@gmail.com",
 };
 
+export const COMPANY_INTRODUCTION = {
+	title: "GIỚI THIỆU CÔNG TY TNHH VĨNH TƯỜNG HƯNG",
+	description:
+		"Với hơn 20 năm kinh nghiệm trong lĩnh vực phân phối hàng tiêu dùng tại Việt Nam, Vĩnh Tường Hưng đã và đang khẳng định vị thế là một trong những nhà phân phối uy tín hàng đầu tại TP. Hồ Chí Minh.",
+	network:
+		"Chúng tôi hiện sở hữu mạng lưới phân phối ổn định với hơn 2.000 cửa hàng, đại lý bán sỉ và lẻ, đảm bảo cung cấp hàng hóa nhanh chóng – chính xác – tận tâm.",
+	partnersTitle: "Sản phẩm & đối tác chính:",
+	partners: [
+		{
+			name: "Unicharm Việt Nam",
+			products: "Băng vệ sinh Diana, tã em bé Bobby, tã người lớn Caryn.",
+		},
+		{
+			name: "Carlsberg Việt Nam",
+			products:
+				"Bia Tuborg, Bia 1664 Blanc, Bia Carlsberg, Bia HuDa, Nước táo lên men SOMERSBY.",
+		},
+		{
+			name: "Kirin Wonderfarm",
+			products:
+				"Trà Bí đao, Kirin ICE, Nước cốt dừa, và nhiều sản phẩm giải khát khác.",
+		},
+	],
+	additionalInfo:
+		"Ngoài ra, chúng tôi còn phân phối đa dạng các sản phẩm tiêu dùng khác.",
+};
+
 export const CORE_VALUE_HEADER = {
 	title: "Giá trị cốt lõi",
 	description:
