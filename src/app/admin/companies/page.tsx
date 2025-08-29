@@ -90,7 +90,7 @@ export default function AdminCompaniesPage() {
 			}
 		} catch (error) {
 			console.error("Error fetching companies:", error);
-			toast.error("Failed to fetch companies");
+			toast.error("Lỗi khi tải danh sách công ty");
 		} finally {
 			setLoading(false);
 		}
@@ -103,6 +103,7 @@ export default function AdminCompaniesPage() {
 			const brandsData = await brandsResponse.json();
 			const companyBrands =
 				brandsData.data?.filter(
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
 					(brand: any) =>
 						brand.companyId?._id === id || brand.companyId === id
 				) || [];
@@ -173,7 +174,7 @@ export default function AdminCompaniesPage() {
 
 	const handleSave = async () => {
 		if (!formData.name.trim()) {
-			toast.error("Company name is required");
+			toast.error("Tên công ty không được để trống");
 			return;
 		}
 		try {
@@ -193,7 +194,7 @@ export default function AdminCompaniesPage() {
 				setCompanies((prev) =>
 					prev.map((c) => (c._id === editing._id ? updated : c))
 				);
-				toast.success("Company updated successfully");
+				toast.success("Cập nhật công ty thành công");
 				// Refresh header data
 				window.dispatchEvent(new CustomEvent("refreshHeaderData"));
 			} else {
@@ -213,7 +214,7 @@ export default function AdminCompaniesPage() {
 					visitors: 0,
 				};
 				setCompanies((prev) => [created, ...prev]);
-				toast.success("Company created successfully");
+				toast.success("Tạo công ty thành công");
 				// Refresh header data
 				window.dispatchEvent(new CustomEvent("refreshHeaderData"));
 			}
@@ -221,7 +222,7 @@ export default function AdminCompaniesPage() {
 		} catch (e: unknown) {
 			toast.error(
 				(e instanceof Error ? e.message : String(e)) ||
-					(editing ? "Failed to update" : "Failed to create")
+					(editing ? "Cập nhật thất bại" : "Tạo mới thất bại")
 			);
 		} finally {
 			setSaving(false);
@@ -232,7 +233,7 @@ export default function AdminCompaniesPage() {
 		return (
 			<div className="container mx-auto px-4 py-8">
 				<div className="flex items-center justify-center min-h-[400px]">
-					<div className="text-xl">Loading companies...</div>
+					<div className="text-xl">Đang tải danh sách công ty...</div>
 				</div>
 			</div>
 		);
@@ -247,12 +248,12 @@ export default function AdminCompaniesPage() {
 						<Link href="/admin">
 							<Button variant="ghost" size="sm">
 								<ArrowLeft className="w-4 h-4 mr-2" />
-								Back to Dashboard
+								Về Bảng điều khiển
 							</Button>
 						</Link>
 						<div>
 							<h1 className="text-3xl font-bold">
-								Manage Companies
+								Quản lý Công ty
 							</h1>
 							{/* <p className="text-muted-foreground">
               Add, edit, or delete companies in the system
@@ -267,7 +268,7 @@ export default function AdminCompaniesPage() {
         </Link> */}
 					<Button onClick={openCreate}>
 						<Plus className="w-4 h-4 mr-2" />
-						Add Company
+						Thêm Công ty
 					</Button>
 				</div>
 
@@ -276,7 +277,7 @@ export default function AdminCompaniesPage() {
 					<div className="relative">
 						<Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
 						<Input
-							placeholder="Search companies..."
+							placeholder="Tìm kiếm công ty..."
 							value={searchTerm}
 							onChange={(e) => setSearchTerm(e.target.value)}
 							className="pl-10"
@@ -289,7 +290,7 @@ export default function AdminCompaniesPage() {
 					<Card>
 						<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 							<CardTitle className="text-sm font-medium">
-								Total Companies
+								Tổng số Công ty
 							</CardTitle>
 						</CardHeader>
 						<CardContent>
@@ -305,7 +306,7 @@ export default function AdminCompaniesPage() {
 					<Card>
 						<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 							<CardTitle className="text-sm font-medium">
-								Total Visitors
+								Tổng lượt xem
 							</CardTitle>
 						</CardHeader>
 						<CardContent>
@@ -325,7 +326,7 @@ export default function AdminCompaniesPage() {
 					<Card>
 						<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 							<CardTitle className="text-sm font-medium">
-								Filtered Results
+								Kết quả lọc
 							</CardTitle>
 						</CardHeader>
 						<CardContent>
@@ -343,7 +344,7 @@ export default function AdminCompaniesPage() {
 				{/* Companies Table */}
 				<Card>
 					<CardHeader>
-						<CardTitle>Companies List</CardTitle>
+						<CardTitle>Danh sách Công ty</CardTitle>
 					</CardHeader>
 					<CardContent>
 						{loading ? (
@@ -369,20 +370,20 @@ export default function AdminCompaniesPage() {
 							<div className="text-center py-8">
 								<p className="text-muted-foreground">
 									{searchTerm
-										? "No companies match your search."
-										: "No companies found."}
+										? "Không tìm thấy công ty phù hợp."
+										: "Không tìm thấy công ty nào."}
 								</p>
 							</div>
 						) : (
 							<Table>
 								<TableHeader>
 									<TableRow>
-										<TableHead>Company</TableHead>
+										<TableHead>Công ty</TableHead>
 										{/* <TableHead>Contact</TableHead> */}
-										<TableHead>Visitors</TableHead>
+										<TableHead>Lượt xem</TableHead>
 										{/* <TableHead>Created</TableHead> */}
 										<TableHead className="text-right">
-											Actions
+											Thao tác
 										</TableHead>
 									</TableRow>
 								</TableHeader>
@@ -490,20 +491,20 @@ export default function AdminCompaniesPage() {
 				>
 					<DialogHeader>
 						<DialogTitle>
-							{editing ? "Edit Company" : "Add New Company"}
+							{editing ? "Sửa Công ty" : "Thêm Công ty Mới"}
 						</DialogTitle>
 					</DialogHeader>
 
 					<div className="space-y-6">
 						<div className="space-y-2">
-							<Label htmlFor="name">Company Name *</Label>
+							<Label htmlFor="name">Tên Công ty *</Label>
 							<Input
 								id="name"
 								name="name"
 								value={formData.name}
 								onChange={handleChange}
 								required
-								placeholder="Enter company name"
+								placeholder="Nhập tên công ty"
 								onKeyDown={(e) => {
 									if (e.key === "Enter") {
 										e.preventDefault();
@@ -612,14 +613,14 @@ export default function AdminCompaniesPage() {
 							onClick={() => setIsUpsertOpen(false)}
 							disabled={saving}
 						>
-							Cancel
+							Hủy
 						</Button>
 						<Button onClick={handleSave} disabled={saving}>
 							{saving
-								? "Saving..."
+								? "Đang lưu..."
 								: editing
-								? "Save Changes"
-								: "Create Company"}
+								? "Lưu thay đổi"
+								: "Tạo công ty"}
 						</Button>
 					</DialogFooter>
 				</DialogContent>

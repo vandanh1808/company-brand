@@ -115,7 +115,7 @@ export default function AdminBrandsPage() {
 			}
 		} catch (error) {
 			console.error("Error fetching data:", error);
-			toast.error("Failed to fetch data");
+			toast.error("Lỗi khi tải dữ liệu");
 		} finally {
 			setLoading(false);
 		}
@@ -191,11 +191,11 @@ export default function AdminBrandsPage() {
 
 	const handleSave = async () => {
 		if (!formData.name.trim()) {
-			toast.error("Brand name is required");
+			toast.error("Tên thương hiệu không được để trống");
 			return;
 		}
 		if (!formData.companyId) {
-			toast.error("Please select a company");
+			toast.error("Vui lòng chọn công ty");
 			return;
 		}
 
@@ -229,7 +229,7 @@ export default function AdminBrandsPage() {
 				setBrands((prev) =>
 					prev.map((b) => (b._id === editing._id ? updated : b))
 				);
-				toast.success("Brand updated successfully");
+				toast.success("Cập nhật thương hiệu thành công");
 				// Refresh header data
 				window.dispatchEvent(new CustomEvent("refreshHeaderData"));
 			} else {
@@ -261,7 +261,7 @@ export default function AdminBrandsPage() {
 					} as Brand);
 
 				setBrands((prev) => [created, ...prev]);
-				toast.success("Brand created successfully");
+				toast.success("Tạo thương hiệu thành công");
 				// Refresh header data
 				window.dispatchEvent(new CustomEvent("refreshHeaderData"));
 			}
@@ -270,7 +270,7 @@ export default function AdminBrandsPage() {
 		} catch (e: unknown) {
 			toast.error(
 				(e instanceof Error ? e.message : String(e)) ||
-					(editing ? "Failed to update" : "Failed to create")
+					(editing ? "Cập nhật thất bại" : "Tạo mới thất bại")
 			);
 		} finally {
 			setSaving(false);
@@ -281,7 +281,9 @@ export default function AdminBrandsPage() {
 		return (
 			<div className="container mx-auto px-4 py-8">
 				<div className="flex items-center justify-center min-h-[400px]">
-					<div className="text-xl">Loading brands...</div>
+					<div className="text-xl">
+						Đang tải danh sách thương hiệu...
+					</div>
 				</div>
 			</div>
 		);
@@ -295,16 +297,18 @@ export default function AdminBrandsPage() {
 					<Link href="/admin">
 						<Button variant="ghost" size="sm">
 							<ArrowLeft className="w-4 h-4 mr-2" />
-							Back to Dashboard
+							Về Bảng điều khiển
 						</Button>
 					</Link>
 					<div>
-						<h1 className="text-3xl font-bold">Manage Brands</h1>
+						<h1 className="text-3xl font-bold">
+							Quản lý Thương hiệu
+						</h1>
 					</div>
 				</div>
 				<Button onClick={openCreate}>
 					<Plus className="w-4 h-4 mr-2" />
-					Add Brand
+					Thêm Thương hiệu
 				</Button>
 			</div>
 
@@ -313,7 +317,7 @@ export default function AdminBrandsPage() {
 				<div className="relative">
 					<Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
 					<Input
-						placeholder="Search brands..."
+						placeholder="Tìm kiếm thương hiệu..."
 						value={searchTerm}
 						onChange={(e) => setSearchTerm(e.target.value)}
 						className="pl-10"
@@ -326,7 +330,7 @@ export default function AdminBrandsPage() {
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">
-							Total Brands
+							Tổng Thương hiệu
 						</CardTitle>
 					</CardHeader>
 					<CardContent>
@@ -342,7 +346,7 @@ export default function AdminBrandsPage() {
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">
-							Total Companies
+							Tổng Công ty
 						</CardTitle>
 					</CardHeader>
 					<CardContent>
@@ -358,7 +362,7 @@ export default function AdminBrandsPage() {
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">
-							Filtered Results
+							Kết quả lọc
 						</CardTitle>
 					</CardHeader>
 					<CardContent>
@@ -376,7 +380,7 @@ export default function AdminBrandsPage() {
 			{/* Brands Table */}
 			<Card>
 				<CardHeader>
-					<CardTitle>Brands List</CardTitle>
+					<CardTitle>Danh sách Thương hiệu</CardTitle>
 				</CardHeader>
 				<CardContent>
 					{loading ? (
@@ -402,18 +406,18 @@ export default function AdminBrandsPage() {
 						<div className="text-center py-8">
 							<p className="text-muted-foreground">
 								{searchTerm
-									? "No brands match your search."
-									: "No brands found."}
+									? "Không tìm thấy thương hiệu phù hợp."
+									: "Không tìm thấy thương hiệu nào."}
 							</p>
 						</div>
 					) : (
 						<Table>
 							<TableHeader>
 								<TableRow>
-									<TableHead>Brand</TableHead>
-									<TableHead>Company</TableHead>
+									<TableHead>Thương hiệu</TableHead>
+									<TableHead>Công ty</TableHead>
 									<TableHead className="text-right">
-										Actions
+										Thao tác
 									</TableHead>
 								</TableRow>
 							</TableHeader>
@@ -488,13 +492,15 @@ export default function AdminBrandsPage() {
 				>
 					<DialogHeader>
 						<DialogTitle>
-							{editing ? "Edit Brand" : "Add New Brand"}
+							{editing
+								? "Sửa Thương hiệu"
+								: "Thêm Thương hiệu Mới"}
 						</DialogTitle>
 					</DialogHeader>
 
 					<div className="space-y-6">
 						<div className="space-y-2">
-							<Label htmlFor="name">Brand Name *</Label>
+							<Label htmlFor="name">Tên Thương hiệu *</Label>
 							<Input
 								id="name"
 								value={formData.name}
@@ -505,7 +511,7 @@ export default function AdminBrandsPage() {
 									}))
 								}
 								required
-								placeholder="Enter brand name"
+								placeholder="Nhập tên thương hiệu"
 								onKeyDown={(e) => {
 									if (e.key === "Enter") {
 										e.preventDefault();
@@ -516,7 +522,7 @@ export default function AdminBrandsPage() {
 						</div>
 
 						<div className="space-y-2">
-							<Label htmlFor="companyId">Company *</Label>
+							<Label htmlFor="companyId">Công ty *</Label>
 							<Select
 								value={formData.companyId}
 								onValueChange={(value) =>
@@ -527,7 +533,7 @@ export default function AdminBrandsPage() {
 								}
 							>
 								<SelectTrigger>
-									<SelectValue placeholder="Select a company" />
+									<SelectValue placeholder="Chọn công ty" />
 								</SelectTrigger>
 								<SelectContent>
 									{companies.map((company) => (
@@ -594,14 +600,14 @@ export default function AdminBrandsPage() {
 							onClick={() => setIsUpsertOpen(false)}
 							disabled={saving}
 						>
-							Cancel
+							Hủy
 						</Button>
 						<Button onClick={handleSave} disabled={saving}>
 							{saving
-								? "Saving..."
+								? "Đang lưu..."
 								: editing
-								? "Save Changes"
-								: "Create Brand"}
+								? "Lưu thay đổi"
+								: "Tạo thương hiệu"}
 						</Button>
 					</DialogFooter>
 				</DialogContent>
