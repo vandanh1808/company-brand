@@ -534,29 +534,6 @@ export default function Header() {
                           {(activeCompany === company._id ||
                             isCompanyActive) && (
                             <div className="pl-3 space-y-1 mt-1">
-                              <Link
-                                href={`/companies/${company._id}`}
-                                onClick={() => setIsMenuOpen(false)}
-                                className={`
-                  block text-xs transition-colors py-1 font-normal truncate
-                  ${
-                    isCompanyActive
-                      ? "text-green-700"
-                      : "text-gray-600 hover:text-gray-800"
-                  }
-                `}
-                              >
-                                Thông tin công ty
-                              </Link>
-
-                              <Link
-                                href="/recruitment"
-                                onClick={() => setIsMenuOpen(false)}
-                                className="block text-xs text-gray-600 hover:text-gray-800 transition-colors py-1 font-normal"
-                              >
-                                Tuyển dụng
-                              </Link>
-
                               {getCompanyBrands(company._id).map((brand) => {
                                 const isBrandActive =
                                   pathname === `/brands/${brand._id}`;

@@ -1,4 +1,6 @@
-import mongoose, { Document, Model, Schema } from "mongoose";
+import mongoose, { Document, InferSchemaType, Model, Schema } from "mongoose";
+// 👇 thêm dòng này để đảm bảo model Company được register
+import "./Company";
 
 export interface IBrand extends Document {
 	name: string;
@@ -36,7 +38,8 @@ const BrandSchema: Schema = new Schema(
 	}
 );
 
-const Brand: Model<IBrand> =
-	mongoose.models.Brand || mongoose.model<IBrand>("Brand", BrandSchema);
+export type BrandDoc = InferSchemaType<typeof BrandSchema>;
+const Brand: Model<BrandDoc> =
+	mongoose.models.Brand || mongoose.model<BrandDoc>("Brand", BrandSchema);
 
 export default Brand;
