@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import { AdminProvider } from "@/contexts/AdminContext";
 import GlobalProgressBar from "@/components/global-progress-bar";
 import { Suspense } from "react";
+import ClientSiteCounter from "@/components/ClientVisitSection";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,6 +42,8 @@ export default function RootLayout({
           <main className="flex-grow">
             <Suspense fallback={null}>{children}</Suspense>
           </main>
+          {/* Floating badge (tùy thích) */}
+          <ClientSiteCounter variant="floating" />
           {/* <Footer /> */}
         </AdminProvider>
         <ToasterPortal />

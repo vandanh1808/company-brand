@@ -367,13 +367,6 @@ export default function Header() {
                       {/* Admin Links */}
                       <div className="py-1">
                         <Link
-                          href="/admin"
-                          className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors text-sm"
-                        >
-                          <Settings className="w-4 h-4 mr-3" />
-                          Bảng điều khiển
-                        </Link>
-                        <Link
                           href="/admin/companies"
                           className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors text-sm"
                         >
@@ -587,16 +580,6 @@ export default function Header() {
                     </div>
 
                     {/* Admin Links */}
-                    <Link href="/admin" onClick={() => setIsMenuOpen(false)}>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="w-full justify-start font-normal text-sm"
-                      >
-                        <Settings className="w-4 h-4 mr-2" />
-                        Dashboard
-                      </Button>
-                    </Link>
                     <Link
                       href="/admin/companies"
                       onClick={() => setIsMenuOpen(false)}
