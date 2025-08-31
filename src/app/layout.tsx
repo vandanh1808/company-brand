@@ -19,10 +19,37 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "http://localhost:3000");
+
 export const metadata: Metadata = {
   title: "Nền Tảng Doanh Nghiệp",
   description:
-    "Khám phá các công ty, thương hiệu và sản phẩm trong hệ sinh thái của chúng tôi",
+    "Nền tảng doanh nghiệp giúp bạn khám phá hệ sinh thái đối tác: danh mục công ty, thương hiệu và sản phẩm kèm thông tin chi tiết, hình ảnh, liên hệ và tuyển dụng. Cập nhật nhanh, tra cứu dễ dàng.",
+  metadataBase: new URL(siteUrl),
+  openGraph: {
+    type: "website",
+    url: siteUrl,
+    siteName: "Nền Tảng Doanh Nghiệp",
+    title: "Nền Tảng Doanh Nghiệp",
+    description:
+      "Nền tảng doanh nghiệp giúp bạn khám phá hệ sinh thái đối tác: danh mục công ty, thương hiệu và sản phẩm kèm thông tin chi tiết, hình ảnh, liên hệ và tuyển dụng. Cập nhật nhanh, tra cứu dễ dàng.",
+    images: ["/og-default.png"], // 1200x630
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Nền Tảng Doanh Nghiệp",
+    description:
+      "Nền tảng doanh nghiệp giúp bạn khám phá hệ sinh thái đối tác: danh mục công ty, thương hiệu và sản phẩm kèm thông tin chi tiết, hình ảnh, liên hệ và tuyển dụng. Cập nhật nhanh, tra cứu dễ dàng.",
+    images: ["/og-default.png"],
+  },
+  alternates: {
+    canonical: siteUrl,
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
