@@ -1,27 +1,43 @@
 // src/app/sitemap.ts
 import type { MetadataRoute } from "next";
 
-/**
- * Base URL: ưu tiên biến môi trường, fallback theo Vercel/localhost.
- * Đặt NEXT_PUBLIC_SITE_URL="https://sale-company.vercel.app" trong .env.production
- */
 const base =
   process.env.NEXT_PUBLIC_SITE_URL ??
   (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
 
-// Kiểu dữ liệu tối thiểu sitemap cần từ API
 type Item = { id?: string; slug?: string; updatedAt?: string | Date };
 
-async function safeFetch<T = Item[]>(
-  path: string
-): Promise<T | []> {
+// ---- type guards ----
+function isObjectRecord(v: unknown): v is Record<string, unknown> {
+  return typeof v === "object" && v !== null;
+}
+function isItemArray(v: unknown): v is Item[] {
+  return Array.isArray(v);
+}
+function hasDataArray(v: unknown): v is { data: Item[] } {
+  return isObjectRecord(v) && Array.isArray((v as Record<string, unknown>).data);
+}
+
+// Ép dữ liệu về mảng an toàn, không dùng 'any'
+function ensureArray<T extends Item = Item>(input: unknown): T[] {
+  if (isItemArray(input)) return input as T[];
+  if (hasDataArray(input)) return (input as { data: T[] }).data;
+  return [];
+}
+
+function safeDate(input: unknown, fallback: Date): Date {
+  const d = new Date(String(input ?? ""));
+  return isNaN(d.getTime()) ? fallback : d;
+}
+
+async function safeFetch<T extends Item = Item>(path: string): Promise<T[]> {
   try {
     const res = await fetch(`${base}${path}`, {
-      // revalidate để search engine nhận mốc cập nhật
       next: { revalidate: 60 * 60 }, // 1h
     });
     if (!res.ok) return [];
-    return (await res.json()) as T;
+    const json: unknown = await res.json();
+    return ensureArray<T>(json);
   } catch {
     return [];
   }
@@ -30,7 +46,6 @@ async function safeFetch<T = Item[]>(
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
-  // 1) Trang tĩnh (public)
   const staticPages: MetadataRoute.Sitemap = [
     { url: `${base}/`, lastModified: now },
     { url: `${base}/brands`, lastModified: now },
@@ -39,29 +54,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/recruitment`, lastModified: now },
   ];
 
-  // 2) Trang động: /brands/[id], /companies/[id], /products/[id]
-  //    API kỳ vọng trả về mảng item có `slug` (ưu tiên) hoặc `id`.
   const [brands, companies, products] = await Promise.all([
-    safeFetch<Item[]>("/api/brands"),
-    safeFetch<Item[]>("/api/companies"),
-    safeFetch<Item[]>("/api/products"),
+    safeFetch("/api/brands"),
+    safeFetch("/api/companies"),
+    safeFetch("/api/products"),
   ]);
 
-  const brandPages: MetadataRoute.Sitemap = (brands as Item[]).map((b) => ({
+  const brandPages: MetadataRoute.Sitemap = brands.map((b) => ({
     url: `${base}/brands/${b.slug ?? b.id}`,
-    lastModified: b.updatedAt ? new Date(b.updatedAt) : now,
+    lastModified: safeDate(b.updatedAt, now),
   }));
 
-  const companyPages: MetadataRoute.Sitemap = (companies as Item[]).map((c) => ({
+  const companyPages: MetadataRoute.Sitemap = companies.map((c) => ({
     url: `${base}/companies/${c.slug ?? c.id}`,
-    lastModified: c.updatedAt ? new Date(c.updatedAt) : now,
+    lastModified: safeDate(c.updatedAt, now),
   }));
 
-  const productPages: MetadataRoute.Sitemap = (products as Item[]).map((p) => ({
+  const productPages: MetadataRoute.Sitemap = products.map((p) => ({
     url: `${base}/products/${p.slug ?? p.id}`,
-    lastModified: p.updatedAt ? new Date(p.updatedAt) : now,
+    lastModified: safeDate(p.updatedAt, now),
   }));
 
-  // 3) Gộp & trả về
   return [...staticPages, ...brandPages, ...companyPages, ...productPages];
 }
