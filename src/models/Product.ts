@@ -1,4 +1,5 @@
-import mongoose, { Document, Model, Schema } from "mongoose";
+import mongoose, { Document, HydratedDocument, Model, Schema } from "mongoose";
+import "./Brand";
 
 export interface IProduct extends Document {
 	name: string;
@@ -49,8 +50,11 @@ const ProductSchema: Schema = new Schema(
 	}
 );
 
-const Product: Model<IProduct> =
-	mongoose.models.Product ||
-	mongoose.model<IProduct>("Product", ProductSchema);
+export type ProductDoc = mongoose.InferSchemaType<typeof ProductSchema>;
+export type ProductHydrated = HydratedDocument<ProductDoc>;
+
+const Product: Model<ProductDoc> =
+  mongoose.models.Product ||
+  mongoose.model<ProductDoc>("Product", ProductSchema);
 
 export default Product;
