@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -12,16 +11,17 @@ import {
 import BannerSlideshow from "@/components/BannerSlideshow";
 import * as Icons from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { TCompanyProfile } from "@/models/CompanyProfile";
 
 function SafeIcon(iconName?: string) {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const LucideIcon =
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		(iconName && (Icons as any)[iconName]) || Icons.Lightbulb;
 	return <LucideIcon className="w-6 h-6 text-primary mr-3" />;
 }
 
 export default function Page() {
-	const [data, setData] = useState<any>(null);
+	const [data, setData] = useState<TCompanyProfile | null>(null);
 	const [loading, setLoading] = useState(true);
 
 	const fetchProfile = async () => {
@@ -179,45 +179,40 @@ export default function Page() {
 											{(
 												COMPANY_INTRODUCTION?.partners ||
 												[]
-											).map(
-												(
-													partner: any,
-													index: number
-												) => {
-													if (
-														!partner?.name &&
-														!partner?.products
-													)
-														return null;
-													return (
-														<li
-															key={index}
-															className="flex"
-														>
-															<span className="text-blue-600 mr-2">
-																•
-															</span>
-															<div>
-																{partner?.name ? (
-																	<span className="font-semibold text-gray-800">
-																		{
-																			partner.name
-																		}
-																		:
-																	</span>
-																) : null}{" "}
-																{partner?.products ? (
-																	<span className="text-gray-700">
-																		{
-																			partner.products
-																		}
-																	</span>
-																) : null}
-															</div>
-														</li>
-													);
-												}
-											)}
+											).map((partner, index: number) => {
+												if (
+													!partner?.name &&
+													!partner?.products
+												)
+													return null;
+												return (
+													<li
+														key={index}
+														className="flex"
+													>
+														<span className="text-blue-600 mr-2">
+															•
+														</span>
+														<div>
+															{partner?.name ? (
+																<span className="font-semibold text-gray-800">
+																	{
+																		partner.name
+																	}
+																	:
+																</span>
+															) : null}{" "}
+															{partner?.products ? (
+																<span className="text-gray-700">
+																	{
+																		partner.products
+																	}
+																</span>
+															) : null}
+														</div>
+													</li>
+												);
+											})}
 
 											{COMPANY_INTRODUCTION?.additionalInfo ? (
 												<li className="flex">
@@ -257,33 +252,28 @@ export default function Page() {
 
 						{(CORE_VALUES?.length ?? 0) > 0 ? (
 							<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-								{CORE_VALUES.map(
-									(value: any, index: number) => {
-										const IconMaybe = (value as any)?.icon;
-										return (
-											<Card
-												key={index}
-												className="h-full"
-											>
-												<CardHeader>
-													<CardTitle className="flex items-center">
-														{/* Nếu icon là component -> render; nếu là string/khác -> fallback */}
-														{SafeIcon(IconMaybe)}
-														{value?.title}
-													</CardTitle>
-												</CardHeader>
-												{(value?.description ?? "") !==
-												"" ? (
-													<CardContent>
-														<CardDescription className="text-base">
-															{value.description}
-														</CardDescription>
-													</CardContent>
-												) : null}
-											</Card>
-										);
-									}
-								)}
+								{CORE_VALUES.map((value, index: number) => {
+									const IconMaybe = value?.icon;
+									return (
+										<Card key={index} className="h-full">
+											<CardHeader>
+												<CardTitle className="flex items-center">
+													{/* Nếu icon là component -> render; nếu là string/khác -> fallback */}
+													{SafeIcon(IconMaybe)}
+													{value?.title}
+												</CardTitle>
+											</CardHeader>
+											{(value?.description ?? "") !==
+											"" ? (
+												<CardContent>
+													<CardDescription className="text-base">
+														{value.description}
+													</CardDescription>
+												</CardContent>
+											) : null}
+										</Card>
+									);
+								})}
 							</div>
 						) : null}
 					</section>

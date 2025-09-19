@@ -66,9 +66,48 @@ const CompanyProfileSchema = new Schema(
 	{ timestamps: true }
 );
 
-export type TCompanyProfile = typeof CompanyProfileSchema extends infer T
-	? any
-	: any;
+export interface TCompanyProfile {
+	slug: string;
+	companyInfo?: {
+		email?: string;
+		phone?: string;
+		address?: string;
+		website?: string;
+	};
+	companyIntroduction?: {
+		title?: string;
+		description?: string;
+		network?: string;
+		partnersTitle?: string;
+		additionalInfo?: string;
+		partners?: Array<{
+			name: string;
+			products?: string;
+		}>;
+	};
+	coreValueHeader?: {
+		title?: string;
+		description?: string;
+	};
+	coreValues?: Array<{
+		title: string;
+		description?: string;
+		icon?: string;
+	}>;
+	leadershipMessage?: {
+		title?: string;
+		message?: string;
+		representative?: string;
+		role?: string;
+	};
+	contactCTA?: {
+		title?: string;
+		description?: string;
+	};
+	logo?: string;
+	name?: string;
+	updatedBy?: string;
+}
 
 export const CompanyProfile =
 	models.CompanyProfile || model("CompanyProfile", CompanyProfileSchema);

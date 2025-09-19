@@ -21,9 +21,9 @@ export async function PUT(req: Request) {
 			{ new: true, upsert: true }
 		).lean();
 		return NextResponse.json({ success: true, data: updated });
-	} catch (e: any) {
+	} catch (e: unknown) {
 		return NextResponse.json(
-			{ success: false, error: e?.message || "Update failed" },
+			{ success: false, error: (e as Error)?.message || "Update failed" },
 			{ status: 500 }
 		);
 	}
