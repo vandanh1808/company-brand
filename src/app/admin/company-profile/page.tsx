@@ -1,6 +1,7 @@
 // =============================
 // app/admin/company-profile/page.tsx (Admin UI)
 // =============================
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useEffect } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
@@ -16,7 +17,7 @@ import IconPicker from "@/components/IconPicker";
 
 const schema = z.object({
 	name: z.string().min(1, "Bắt buộc"),
-	logo: z.string().optional().default(""),
+	logo: z.string().default(""),
 	updatedBy: z.string().optional(),
 	companyInfo: z.object({
 		email: z.string().email().optional().or(z.literal("")),
@@ -26,10 +27,10 @@ const schema = z.object({
 	}),
 	companyIntroduction: z.object({
 		title: z.string().default("Giới thiệu"),
-		description: z.string().optional().or(z.literal("")),
-		network: z.string().optional().or(z.literal("")),
+		description: z.string().default(""),
+		network: z.string().default(""),
 		partnersTitle: z.string().default("Đối tác"),
-		additionalInfo: z.string().optional().or(z.literal("")),
+		additionalInfo: z.string().default(""),
 		partners: z
 			.array(
 				z.object({ name: z.string(), products: z.string().optional() })
@@ -38,26 +39,26 @@ const schema = z.object({
 	}),
 	coreValueHeader: z.object({
 		title: z.string().default("Giá trị cốt lõi"),
-		description: z.string().optional().or(z.literal("")),
+		description: z.string().default(""),
 	}),
 	coreValues: z
 		.array(
 			z.object({
 				title: z.string(),
-				description: z.string().optional().or(z.literal("")),
+				description: z.string().default(""),
 				icon: z.string().default("Lightbulb"),
 			})
 		)
 		.default([]),
 	leadershipMessage: z.object({
 		title: z.string().default("Thông điệp lãnh đạo"),
-		message: z.string().optional().or(z.literal("")),
-		representative: z.string().optional().or(z.literal("")),
-		role: z.string().optional().or(z.literal("")),
+		message: z.string().default(""),
+		representative: z.string().default(""),
+		role: z.string().default(""),
 	}),
 	contactCTA: z.object({
 		title: z.string().default("Liên hệ"),
-		description: z.string().optional().or(z.literal("")),
+		description: z.string().default(""),
 	}),
 });
 
@@ -68,7 +69,7 @@ export default function AdminCompanyProfilePage() {
 		handleSubmit,
 		reset,
 		formState: { isSubmitting },
-	} = useForm<z.infer<typeof schema>>({ resolver: zodResolver(schema) });
+	} = useForm({ resolver: zodResolver(schema) });
 
 	const {
 		fields: partnerFields,
@@ -94,7 +95,7 @@ export default function AdminCompanyProfilePage() {
 		})();
 	}, [reset]);
 
-	async function onSubmit(values: z.infer<typeof schema>) {
+	async function onSubmit(values: any) {
 		try {
 			const res = await fetch("/api/company-profile", {
 				method: "PUT",
@@ -310,7 +311,7 @@ export default function AdminCompanyProfilePage() {
 							{valueFields.map((f, i) => (
 								<div
 									key={f.id}
-									className="grid md:grid-cols-3 gap-3 items-end"
+									className="grid md:grid-cols-3 gap-3"
 								>
 									<div>
 										<Label>Tiêu đề</Label>

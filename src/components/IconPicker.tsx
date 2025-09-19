@@ -76,7 +76,7 @@ export default function IconPicker({
 
 	return (
 		<div className={cn("flex items-center gap-2", className)}>
-			<div className="flex items-center gap-2 rounded-md border px-3 py-2 w-full">
+			<div className="flex items-center gap-2 rounded-md border px-1 w-full">
 				<CurrentIcon className="w-5 h-5 text-primary shrink-0" />
 				<Input
 					readOnly

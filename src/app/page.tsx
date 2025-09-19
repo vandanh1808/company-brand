@@ -28,7 +28,7 @@ import {
 import BannerSlideshow from "@/components/BannerSlideshow";
 import * as Icons from "lucide-react";
 
-export function SafeIcon(iconName?: string) {
+function SafeIcon(iconName?: string) {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const LucideIcon =
 		(iconName && (Icons as any)[iconName]) || Icons.Lightbulb;
