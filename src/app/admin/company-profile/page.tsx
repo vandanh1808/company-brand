@@ -3,7 +3,7 @@
 // =============================
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,6 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import IconPicker from "@/components/IconPicker";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const schema = z.object({
 	name: z.string().min(1, "Bắt buộc"),
@@ -63,6 +64,7 @@ const schema = z.object({
 });
 
 export default function AdminCompanyProfilePage() {
+	const [isLoading, setIsLoading] = useState(true);
 	const {
 		control,
 		register,
@@ -86,11 +88,14 @@ export default function AdminCompanyProfilePage() {
 	useEffect(() => {
 		(async () => {
 			try {
+				setIsLoading(true);
 				const res = await fetch("/api/company-profile");
 				const data = await res.json();
 				if (data?.data) reset(data.data);
 			} catch (e) {
 				/* noop */
+			} finally {
+				setIsLoading(false);
 			}
 		})();
 	}, [reset]);
@@ -110,6 +115,42 @@ export default function AdminCompanyProfilePage() {
 		} catch (e: any) {
 			toast.error(e?.message || "Lưu thất bại");
 		}
+	}
+
+	if (isLoading) {
+		return (
+			<div className="container mx-auto px-4 py-8">
+				<div className="flex items-center justify-between mb-8">
+					<Skeleton className="h-9 w-80" />
+					<Skeleton className="h-10 w-32" />
+				</div>
+				<div className="space-y-8">
+					{[1, 2, 3, 4].map((i) => (
+						<Card key={i}>
+							<CardHeader>
+								<Skeleton className="h-6 w-48" />
+							</CardHeader>
+							<CardContent className="space-y-4">
+								<div className="grid md:grid-cols-2 gap-4">
+									<div className="space-y-2">
+										<Skeleton className="h-4 w-16" />
+										<Skeleton className="h-10 w-full" />
+									</div>
+									<div className="space-y-2">
+										<Skeleton className="h-4 w-16" />
+										<Skeleton className="h-10 w-full" />
+									</div>
+								</div>
+								<div className="space-y-2">
+									<Skeleton className="h-4 w-20" />
+									<Skeleton className="h-20 w-full" />
+								</div>
+							</CardContent>
+						</Card>
+					))}
+				</div>
+			</div>
+		);
 	}
 
 	return (
