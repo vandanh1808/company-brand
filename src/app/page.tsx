@@ -1,4 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+
+import { useEffect, useState } from "react";
 import {
 	Card,
 	CardContent,
@@ -6,27 +9,9 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import {
-	Building2,
-	Users,
-	Globe,
-	Award,
-	Target,
-	Heart,
-	Lightbulb,
-	Shield,
-} from "lucide-react";
-import {
-	COMPANY_INFO as HARDCODE_COMPANY_INFO,
-	COMPANY_INTRODUCTION as HARDCODE_COMPANY_INTRO,
-	CONTACT_CTA as HARDCODE_CONTACT_CTA,
-	CORE_VALUE_HEADER as HARDCODE_CORE_HEADER,
-	CORE_VALUES as HARDCODE_CORE_VALUES,
-	LEADERSHIP_MESSAGE as HARDCODE_LEADERSHIP,
-} from "./data/companyInfo";
 import BannerSlideshow from "@/components/BannerSlideshow";
 import * as Icons from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 function SafeIcon(iconName?: string) {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -35,29 +20,37 @@ function SafeIcon(iconName?: string) {
 	return <LucideIcon className="w-6 h-6 text-primary mr-3" />;
 }
 
-async function getProfile() {
-	// Server Component: cần absolute URL
-	const baseUrl =
-		process.env.NEXT_PUBLIC_BASE_URL ||
-		(process.env.NODE_ENV === "production"
-			? "" // nếu deploy cùng domain, bạn có thể cấu hình middleware để tránh cần base
-			: "http://localhost:3000");
+export default function Page() {
+	const [data, setData] = useState<any>(null);
+	const [loading, setLoading] = useState(true);
 
-	const url = baseUrl
-		? `${baseUrl}/api/company-profile`
-		: `/api/company-profile`;
+	const fetchProfile = async () => {
+		try {
+			const res = await fetch("/api/company-profile");
+			if (res.ok) {
+				const json = await res.json();
+				if (json.success && json.data) {
+					setData(json.data);
+				}
+			}
+		} catch (error) {
+			console.error("Error fetching company profile:", error);
+		} finally {
+			setLoading(false);
+		}
+	};
 
-	const res = await fetch(url, { next: { revalidate: 60 } });
-	// Nếu API chưa có, fallback về hard data hiện hữu
-	if (!res.ok) {
-		return null;
-	}
-	const json = await res.json();
-	return json?.data ?? null;
-}
+	useEffect(() => {
+		fetchProfile();
 
-export default async function Page() {
-	const data = await getProfile();
+		const handleRefresh = () => {
+			fetchProfile();
+		};
+
+		window.addEventListener("refreshHeaderData", handleRefresh);
+		return () =>
+			window.removeEventListener("refreshHeaderData", handleRefresh);
+	}, []);
 
 	// Fallback sang hard data nếu chưa có dữ liệu DB
 	const COMPANY_INFO = data?.companyInfo ?? {};
@@ -97,6 +90,49 @@ export default async function Page() {
 		COMPANY_INFO?.phone ||
 		COMPANY_INFO?.address
 	);
+
+	if (loading) {
+		return (
+			<>
+				{/* Full-width Banner Slideshow */}
+				<BannerSlideshow />
+
+				<div className="container mx-auto px-4 py-8">
+					{/* Loading skeleton */}
+					<div className="mb-16 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-8">
+						<div className="max-w-5xl mx-auto">
+							<Skeleton className="h-12 w-96 mx-auto mb-8" />
+							<div className="space-y-6">
+								<Skeleton className="h-6 w-full" />
+								<Skeleton className="h-6 w-5/6" />
+								<Skeleton className="h-6 w-4/5" />
+							</div>
+						</div>
+					</div>
+
+					{/* Core values loading */}
+					<div className="mb-16">
+						<div className="text-center mb-12">
+							<Skeleton className="h-10 w-48 mx-auto mb-4" />
+							<Skeleton className="h-6 w-64 mx-auto" />
+						</div>
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+							{[1, 2, 3, 4].map((i) => (
+								<Card key={i} className="h-full">
+									<CardHeader>
+										<Skeleton className="h-8 w-full" />
+									</CardHeader>
+									<CardContent>
+										<Skeleton className="h-20 w-full" />
+									</CardContent>
+								</Card>
+							))}
+						</div>
+					</div>
+				</div>
+			</>
+		);
+	}
 
 	return (
 		<>

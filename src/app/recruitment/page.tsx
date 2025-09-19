@@ -133,6 +133,14 @@ export default function RecruitmentPage() {
 
 	useEffect(() => {
 		fetchData();
+
+		const handleRefresh = () => {
+			fetchData();
+		};
+
+		window.addEventListener("refreshHeaderData", handleRefresh);
+		return () =>
+			window.removeEventListener("refreshHeaderData", handleRefresh);
 	}, []);
 
 	const fetchData = async () => {
